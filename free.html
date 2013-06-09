@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Rain App > Dialog</title>
+<!-- Framework CSS -->
+<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
+<!--[if lte IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<link rel="stylesheet" href="css/rain.css" type="text/css" media="screen, projection"/>
+<!--[if lt IE 9]><script type="text/javascript" src="js/html5.js"></script><![endif]-->
+</head>
+
+<body class="body">
+	<div class="header headerBlue">
+  	<nav class="listStyleNo positionR clearfix">
+    	<a href="#" class="headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone">link1</a>
+    	<a href="#" class="headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone">link2</a>
+    	<a href="#" class="headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone">link3</a>
+    </nav>
+  </div>
+	<div class="headerM headerGrey">
+  	<div class="container positionR">
+    	<div class="left"><a class="textDecNone displayBlock paddingTopLL fontsizeXxlarge" href="index.html">Free HTML</a></div>
+    </div>
+  </div>
+  
+<div class="container marginTop"> 
+    <div class="content">
+        <div class="sidebar left positionR">
+        <h2 class="category">test</h2>
+        <p>This part is the webpage webpage webpage</p>
+      </div>
+      <div class="main mainRight positionR">
+        <h1>test</h1> 
+      </div>
+    </div>
+</div>
+ 
+<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+<script type="text/javascript">
+(function($) { 
+	$.rainUtil = {};
+	$.rainUtil.interface = function(name, methods) { 
+		if(arguments.length != 2) {
+			throw new Error("Interface constructor called with " + arguments.length + "arguments, but expected exactly 2.");
+		}
+		
+		this.name = name;
+		this.methods = [];
+		for(var i = 0, len = methods.length; i < len; i++) {
+			if(typeof methods[i] !== 'string') {
+				throw new Error("Interface constructor expects method names to be passed in as a string.");
+			}
+			this.methods.push(methods[i]);        
+		}
+	}
+	
+	$.rainUtil.ensureImplements = function(object) {
+		if(arguments.length < 2) {
+			throw new Error("Function Interface.ensureImplements called with " + arguments.length  + "arguments, but expected at least 2.");
+		}
+	
+		for(var i = 1, len = arguments.length; i < len; i++) {
+			var interface = arguments[i];
+			if(interface.constructor !== $.rainUtil.interface) {
+				throw new Error("Function Interface.ensureImplements expects arguments two and above to be instances of Interface.");
+			}
+			
+			for(var j = 0, methodsLen = interface.methods.length; j < methodsLen; j++) {
+				var method = interface.methods[j];
+				if(!object[method] || typeof object[method] !== 'function') {
+					throw new Error("Function ensureImplements: object " 
+					  + "does not implement the " + interface.name + " interface. Method " + method + " was not found.");
+				}
+			}
+		} 
+	};
+	
+	$.rainUtil.htmlObj=function(obj) {
+		var o = {
+			checkObj: function(propName) {
+				if(!propName){
+					throw new Error('Invalid property.');
+				}
+			},
+			actions: function(){},
+			getHtml: function(){
+				if(obj.tagName){
+				var id = obj.id || '';
+				var classes = obj.class || '';
+				var content = obj.content || '';
+				return "<"+obj.tagName+" id='"+id+"' class='"+classes+"'></"+obj.tagName+">";
+				}
+				return null;
+			},
+			getJQobj: function(){
+				if(o.getHtml()){
+					return $(o.getHtml());
+				}
+			}
+		}; 
+		return o;
+	}
+})(jQuery);
+
+var BoxIf = new $.rainUtil.interface('Box', ['add', 'remove']); 
+var div = new $.rainUtil.htmlObj({"id":"hello","tagName":"div","class":""});
+
+div.actions.add = function(){};
+div.actions.remove = function(){};
+$.rainUtil.ensureImplements(div.actions,BoxIf); 
+alert(div.getHtml());
+</script>
+</body>
+</html>
