@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Rain App > Dialog</title>
+<title>Free HTML</title>
 <!-- Framework CSS -->
 <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
 <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
@@ -31,7 +31,7 @@
         <h2 class="category">test</h2>
         <p>This part is the webpage webpage webpage</p>
       </div>
-      <div class="main mainRight positionR">
+      <div class="c_main main mainRight positionR">
         <h1>test</h1> 
       </div>
     </div>
@@ -79,38 +79,73 @@
 	
 	$.rainUtil.htmlObj=function(obj) {
 		var o = {
-			checkObj: function(propName) {
+			html: null,
+			jQobj: null,
+			/*设置构造器*/
+			constructor: function(){
+				o.getHtml();
+				o.getJQobj();
+			},
+			/*检查对象属性*/
+			checkObj: function(propName/*string*/) {
 				if(!propName){
 					throw new Error('Invalid property.');
 				}
 			},
+			/*设置默认动作*/
 			actions: function(){},
-			getHtml: function(){
-				if(obj.tagName){
-				var id = obj.id || '';
-				var classes = obj.class || '';
-				var content = obj.content || '';
-				return "<"+obj.tagName+" id='"+id+"' class='"+classes+"'></"+obj.tagName+">";
-				}
-				return null;
+			/*设置样式*/
+			css: function(obj){
+				o.jQobj.css(obj);
 			},
-			getJQobj: function(){
-				if(o.getHtml()){
-					return $(o.getHtml());
+			/*设置html标签*/
+			getHtml: function(){
+				if(!o.html){
+					if(obj.tagName){
+						var id = obj.id || '';
+						var classes = obj.class || '';
+						var content = obj.content || '';
+						o.html = "<"+obj.tagName+" id='"+id+"' class='"+classes+"'>"+content+"</"+obj.tagName+">";
+					}
 				}
+				return o.html;
+			},
+			/*获取jq对象*/
+			getJQobj: function(){
+				if(!o.jQobj){
+					if(o.html){ o.jQobj =  $(o.html); }
+				}
+				return o.jQobj;
+			},
+			/*设置父元素*/
+			setParent: function(selector/*string*/){
+				$(selector).append(o.getJQobj());
+			},
+			/*设置标签内容*/
+			setContent: function(ele/*string | jqObj*/){
+				o.getJQobj().empty().append(ele);
+			},
+			/*添加标签内容*/
+			addContent: function(ele/*string | jqObj*/){
+				o.getJQobj().append(ele);
 			}
-		}; 
+		};
+		o.constructor();
 		return o;
 	}
 })(jQuery);
 
-var BoxIf = new $.rainUtil.interface('Box', ['add', 'remove']); 
-var div = new $.rainUtil.htmlObj({"id":"hello","tagName":"div","class":""});
-
-div.actions.add = function(){};
+var BoxIf = new $.rainUtil.interface('Box', ['add', 'remove']);
+var div = new $.rainUtil.htmlObj({"id":"hello","tagName":"div","class":"","content":"hello world"});
+div.css({'color':'red','font-weight':'29px'});
+div.actions.add = function(ele){
+	div.getJQobj().append(ele);
+};
 div.actions.remove = function(){};
 $.rainUtil.ensureImplements(div.actions,BoxIf); 
 alert(div.getHtml());
+//div.setContent("<p>.c_main</p>");
+div.setParent('body');
 </script>
 </body>
 </html>
