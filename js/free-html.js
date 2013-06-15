@@ -46,7 +46,31 @@
 			}
 		} 
 	};
-
+	/*
+	*  class单体对象声明
+	*  例:var c = $.htmlUtil.classObj.getInstance();
+	*/
+	$.htmlUtil.classObj=(function(){
+			var uniqueInstance;
+			function constructor() {
+				var o = {
+						font:{normal:'fontNormal',italic:'fontItalic',oblique:'fontOblique',smallcaps: "fontVariant"},
+						color:{}, 
+						getFontStyle:function(param/*string*/){return o.font[param]+' ';}
+				};
+				return o;
+			}
+			
+			return {
+				getInstance: function() {
+					if(!uniqueInstance) {
+						console.log(11)
+						uniqueInstance = constructor();
+					}
+					return uniqueInstance;
+				}
+			}
+		})();
 	/*
 	*  html对象声明
 	*	 param 参数对象
