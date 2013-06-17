@@ -54,9 +54,46 @@
 			var uniqueInstance;
 			function constructor() {
 				var o = {
-						font:{normal:'fontNormal',italic:'fontItalic',oblique:'fontOblique',smallcaps: "fontVariant"},
-						color:{}, 
-						getFontStyle:function(param/*string*/){return o.font[param]+' ';}
+						font:{normal:'fontNormal',
+							italic:'fontItalic',
+							oblique:'fontOblique',
+							smallcaps: 'fontVariant',
+							weightNormal:'fontWeightNormal',
+							'bold':'fontBord',
+							bolder:"fontBorder",
+							lighter:'fontLighter',
+							xxsmall:'fontsizeXxsmall',
+							xsmall:'fontsizeXsmall',
+							'small':'fontsizeSmall',
+							medium:'fontsizeMedium',
+							large:'fontsizeLarge',
+							xlarge:'fontsizeXlarge',
+							xxlarge:'fontsizeXxlarge',
+							'fontsize':'fontsize'
+						},
+						color:{
+							bglightYellow:'bgLightYellow',
+							bgLightRed:'bgLightRed',
+							bgLightGreen:'bgLightGreen',
+							bgLightBlue:'bgLightBlue',
+							bgLightGrey:'bgLightGrey',
+							bgLightGrey2:'bgLightGrey2',
+							bgYellow:'bgYellow',
+							bgRed:'bgRed',
+							bgGreen:'bgGreen',
+							bgBlue:'bgBlue',
+							bgGrey:'bgGrey',
+							bgDeepGrey:'bgDeepGrey',
+							bgBlack:'bgBlack',
+							bgWhite:'bgWhite',
+						}, 
+						getFontStyle:function(param/*string*/){
+							console.log(typeof(parseInt(param,10)));
+							if(typeof(parseInt(param,10))==='number'){
+								return o.font['fontsize']+'-'+param+' ';
+							}
+							return o.font[param]+' ';
+						}
 				};
 				return o;
 			}
@@ -64,7 +101,6 @@
 			return {
 				getInstance: function() {
 					if(!uniqueInstance) {
-						console.log(11)
 						uniqueInstance = constructor();
 					}
 					return uniqueInstance;
