@@ -1,20 +1,16 @@
 require.config({
+	"baseUrl": "./js/",
 	paths: {
-		jquery: 'jquery-1.10.1.min'
+		jquery: 'jquery-1.10.1.min',
+		html: 'freehtml'
 	},
-	shim: {
-		'freehtml': {
-			deps: ['jquery'], 
-			exports: 'freehtml'
-		}
-	}
+  priority: ['jquery']
 });
-require(['jquery','freehtml'], function ($){
+require(['jquery','html'], function ($,_html){
 	require(['classobj'], function (c) {
-		var html = $.htmlUtil.htmlObj;
-		var provider = $.htmlUtil.classObj.getInstance();
-		//console.info(c.getFontStyle('1'));
-		var BoxIf = new $.htmlUtil.interface('Box', ['add', 'remove']); 
+		var html = _html.htmlObj;
+		var provider = _html.classObj.getInstance();
+		var BoxIf = new _html.interface('Box', ['add', 'remove']); 
 		var links_class = provider.getClass(c,'font','1')+"headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone";
 		var doc = {
 			header : new html({"id":"header","tagName":"div","class":"header headerBlue"}),
@@ -26,7 +22,7 @@ require(['jquery','freehtml'], function ($){
 			div.jQobj.append(ele);
 		};
 		doc.header.actions.remove = function(){div.jQobj.empty();};
-		$.htmlUtil.ensureImplements(doc.header.actions,BoxIf);
+		_html.ensureImplements(doc.header.actions,BoxIf);
 		doc.header.setParent('body');
 		doc.header.addContent(doc.nav);
 		doc.nav.addContent(doc.links_1).addContent(doc.links_2);
