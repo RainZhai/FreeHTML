@@ -137,6 +137,14 @@ Atomic Css Objects
 .textAlignCenter{text-align:center;}
 .textIndent{text-indent:20px;}
 .textIndentL{text-indent:40px;}
+.wordWrapBreak{word-wrap: break-word;}
+.wordBreakNormal{word-break:normal;}
+.wordBreakAll{word-break:break-all;}
+.wordBreakKeepAll{word-break:keep-all;}
+.wordSpaceNowrap{white-space:nowrap;}
+.wordSpacePre{white-space: pre;}
+.wordSpacePreline{white-space: pre-line;}
+.wordSpacePrewrap{white-space: pre-wrap;}
 /*  box
 		free properties
 		--width
@@ -337,6 +345,18 @@ Atomic Css Objects
 .marginLeftLL{ margin-left:20px;}
 .marginLL{ margin:20px;}
 
+.paddingTop-3{ padding-top:30px;}
+.paddingBottom-3{ padding-bottom:30px;}
+.paddingRight-3{ padding-right:30px;}
+.paddingLeft-3{ padding-left:30px;}
+.padding-3{ padding:30px;}
+
+.marginTop-4{ margin-top:40px;}
+.marginBottom-4{ margin-bottom:40px;}
+.marginRight-4{ margin-right:40px;}
+.marginLeft-4{ margin-left:40px;}
+.margin-4{ margin:40px;}
+
 .paddingTopLL{ padding-top:20px;}
 .paddingBottomLL{ padding-bottom:20px;}
 .paddingRightLL{ padding-right:20px;}
@@ -510,11 +530,6 @@ Atomic Css Objects
 .triangleBottomWhite{width:0; height:0; border:4px solid transparent;border-bottom-color:#fff;}
 
 .cursorPointer{ cursor:pointer;}
-.wordWrapBreak{word-wrap: break-word;}
-.wordBreakNormal{word-break:normal;}
-.wordBreakAll{word-break:break-all;}
-.wordBreakKeepAll{word-break:keep-all;}
-.wordSpaceNowrap{white-space:nowrap;}
 /* extend css3 objects */
 .css3_roundS {
      -moz-border-radius: 3px; /* FF1+ */
@@ -632,6 +647,11 @@ Atomic Css Objects
   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25); /* Saf3.0+, Chrome */
           box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25); /* Opera 10.5, IE 9.0 */
 }
+.css3_box_outer_shadow_for_hover:hover {
+     -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25); /* FF3.5+ */
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25); /* Saf3.0+, Chrome */
+          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25); /* Opera 10.5, IE 9.0 */
+}
 .css3_box_outer_shadow_yellow {
      -moz-box-shadow: 0px 0px 8px #D2B852; /* FF3.5+ */
   -webkit-box-shadow: 0px 0px 8px #D2B852; /* Saf3.0+, Chrome */
@@ -705,6 +725,8 @@ code{background-color:#F7F7F9; color:#DD1144; padding:2px 4px; border:1px solid 
 pre,code{font-family:Menlo,Monaco,"Courier New",monospace; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;}
 blockquote { border-left:5px solid #eee; margin:0 0 1.5em 0; padding:0 0 0 1.5em; font-size:16px;color:#333;}
 blockquote.pull-right {border-left:0 none; border-right:5px solid #eee; margin:0 1.5em 0 0; padding:0 1.5em 0 0; text-align:right;}
+p .left {margin:1em 1em 1em 0;}
+p .right {margin:1em 1em 1em 0;}
 /*-- banner.css -- banner object and sub-objects --*/
 .banner{ margin-bottom:10px; background:#F2F2F2;}
 	.logo{ width:200px; padding:20px 0 0; margin:0;}  
@@ -911,10 +933,10 @@ blockquote.pull-right {border-left:0 none; border-right:5px solid #eee; margin:0
 /*-- table.css -- table object and sub-objects --*/
 thead th {background:#fff;}
 th,td{ color:#333; padding: 10px 10px 9px;}
-.table tr:nth-child(2n) td, tr.even td {
+.table tr:nth-child(2n) td, .table tr.even td {
     background:#cadcfe;
 }
-.table th,td{ color:#333; padding: 10px 10px 9px;}
+.table th,.table td{ color:#333; padding: 10px 10px 9px;}
 .table th{ border-bottom-width:3px;}
 .table tr:hover td { background-color: #f5f5f5;}
 
@@ -953,6 +975,25 @@ border-top: 0 none;}
 border-top: 0 none;}
 .table-6 th,.table-6 td{ color:#333; padding: 5px 10px 4px; border-top:1px solid #ddd;}
 .table-6 tr:hover td { background-color: #f5f5f5;}
+
+.table-7 {border-collapse:collapse;border-spacing:0;}
+.table-7 tr:nth-child(2n) td {background:none;}
+.table-7 tr.even td {background:none;}
+.table-7 colgroup + thead tr:first-child th, .table-7 colgroup + thead tr:first-child td, .table-7 thead:first-child tr:first-child th, .table-7 thead:first-child tr:first-child td, .table-7 tr:first-child th{
+border-top: 0 none;}
+.table-7 th,.table-7 td{ color:#333; padding: 10px 10px 8px;}
+
+.table-8 {border-collapse:collapse;border-spacing:0;}
+.table-8 tr:nth-child(2n) td {background:none;}
+.table-8 tr.even td {background:none;} 
+.table-8 th, .table-8 td{ border:1px solid #ddd;}
+.table-8 tr:hover td { background-color: #fff;}
+
+.table-9 {border-collapse:collapse;border-spacing:0;}
+.table-9 tr:nth-child(2n) td {background:none;}
+.table-9 tr.even td {background:none;} 
+.table-9 th, .table-9 td{ border:1px solid #ddd; color:#333; padding: 2px 2px 1px;}
+.table-9 tr:hover td { background-color: #fff;}
 /* projcet code */
 .proj_content{ background:url(../images/robot_bg_1.jpg) no-repeat 0 0; min-height:500px;}
 .waIcon{ width:145px; height:110px;}
@@ -963,7 +1004,7 @@ border-top: 0 none;}
 
 /*-- dialog.css -- dialog object and component --*/
 .dialogWrap {height:100%; width:100%; bottom:0; left:0; right:0; top:0; z-index:99;}
-.dialogWrapIE {width:100%; height:100%; bottom:0; left:0; right:0; top:0; z-index:100;}
+.dialogWrapIE {width:100%; height:100%; bottom:0; left:0; right:0; top:0; z-index:100; background-color:#fff;}
 .dialogBox {left:50%; top:50px; background-color:#fff; z-index:150;  border:1px solid #707070;}
 .dialogBox2 {left:50%; top:260px; background-color:#fff; z-index:150;  border:1px solid #707070;}
 .dialogBox3 {left:50%; top:470px; background-color:#fff; z-index:150;  border:1px solid #707070;}
@@ -981,6 +1022,8 @@ border-top: 0 none;}
 @media handheld, only screen and (max-width: 480px), only screen and (max-device-width:480px){
 	.left{float:none;}
 	.right{float:none;}
+	.header{ width:auto;}
+	.headerM{ width:auto;}
 	.container{ width:auto; padding:5px;}
 	.logo{ width:auto;}
 	.sidebar{ width:auto;}
@@ -990,7 +1033,7 @@ border-top: 0 none;}
 	.socialFooter{width:auto;}
 }
 
-@media only screen and (max-width: 767px){
+@media only screen and (max-width: 767px), only screen and (max-device-width:767px){
 	.container{ width:auto; padding:5px;}
 	.logo{ width:auto;}
 	.sidebar{ width:auto;}
@@ -1008,6 +1051,3 @@ border-top: 0 none;}
 /* button code */
 .plusIcon, .plusBlockIcon {background:url(images/plus.gif) no-repeat center center; height:18px; width:18px;}
 .dijitArrowButtonInner { background:url(images/buttonArrows.png) no-repeat -51px 53%; height:15px; width:15px;}
-.swfupload{ vertical-align: top;}
-input.uploadFileName{ margin:0 3px 3px 3px; padding:2px;}
-.closeUploadBox{ right:2px; top:2px;}

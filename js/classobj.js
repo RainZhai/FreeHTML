@@ -46,6 +46,38 @@ define({
 			grey:'itemGrey',
 			deepGrey:'itemDeepGrey',
 			black:'itemBlack',
-			white:'itemWhite',
+			white:'itemWhite'
+		},
+		color:{
+			lightYellow:'colorLightYellow',
+			lightRed:'colorLightRed',
+			lightGreen:'colorLightGreen',
+			lightBlue:'colorLightBlue',
+			lightGrey:'colorLightGrey',
+			lightGrey2:'colorLightGrey2',
+			yellow:'colorYellow',
+			red:'colorRed',
+			green:'colorGreen',
+			blue:'colorBlue',
+			grey:'colorGrey',
+			deepGrey:'colorDeepGrey',
+			black:'colorBlack',
+			white:'colorWhite'
+		},
+		colorHover:{
+			lightYellow:'itemColorLightYellow',
+			lightRed:'itemColorLightRed',
+			lightGreen:'itemColorLightGreen',
+			lightBlue:'itemColorLightBlue',
+			lightGrey:'itemColorLightGrey',
+			lightGrey2:'itemColorLightGrey2',
+			yellow:'itemColorYellow',
+			red:'itemColorRed',
+			green:'itemColorGreen',
+			blue:'itemColorBlue',
+			grey:'itemColorGrey',
+			deepGrey:'itemColorDeepGrey',
+			black:'itemColorBlack',
+			white:'itemColorWhite'
 		}
 });
