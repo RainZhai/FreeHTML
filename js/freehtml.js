@@ -80,6 +80,66 @@
 									return c[type]['height']+'-'+param+' ';
 								}
 								return c[type][param]+' ';
+							},
+							getPadding:function(c/*classes*/,type/*string*/, param/*string*/){
+								if(type==='box' && typeof(parseInt(param,10))==='number'){
+									return c[type]['padding']+'-'+param+' ';
+								}
+								return c[type][param]+' ';
+							},
+							getPaddingTop:function(c/*classes*/,type/*string*/, param/*string*/){
+								if(type==='box' && typeof(parseInt(param,10))==='number'){
+									return c[type]['paddingTop']+'-'+param+' ';
+								}
+								return c[type][param]+' ';
+							},
+							getPaddingBottom:function(c/*classes*/,type/*string*/, param/*string*/){
+								if(type==='box' && typeof(parseInt(param,10))==='number'){
+									return c[type]['paddingBottom']+'-'+param+' ';
+								}
+								return c[type][param]+' ';
+							},
+							getPaddingLeft:function(c/*classes*/,type/*string*/, param/*string*/){
+								if(type==='box' && typeof(parseInt(param,10))==='number'){
+									return c[type]['paddingLeft']+'-'+param+' ';
+								}
+								return c[type][param]+' ';
+							},
+							getPaddingRight:function(c/*classes*/,type/*string*/, param/*string*/){
+								if(type==='box' && typeof(parseInt(param,10))==='number'){
+									return c[type]['paddingRight']+'-'+param+' ';
+								}
+								return c[type][param]+' ';
+							},
+							getMargin:function(c/*classes*/,type/*string*/, param/*string*/){
+								if(type==='box' && typeof(parseInt(param,10))==='number'){
+									return c[type]['margin']+'-'+param+' ';
+								}
+								return c[type][param]+' ';
+							},
+							getMarginTop:function(c/*classes*/,type/*string*/, param/*string*/){
+								if(type==='box' && typeof(parseInt(param,10))==='number'){
+									return c[type]['marginTop']+'-'+param+' ';
+								}
+								return c[type][param]+' ';
+							},
+							getMarginBottom:function(c/*classes*/,type/*string*/, param/*string*/){
+								if(type==='box' && typeof(parseInt(param,10))==='number'){
+									return c[type]['marginBottom']+'-'+param+' ';
+								}
+								return c[type][param]+' ';
+							},
+							getMarginLeft:function(c/*classes*/,type/*string*/, param/*string*/){
+								if(type==='box' && typeof(parseInt(param,10))==='number'){
+									return c[type]['marginLeft']+'-'+param+' ';
+								}
+								return c[type][param]+' ';
+							},
+							getMarginRight:function(c/*classes*/,type/*string*/, param/*string*/){
+								if(type==='box' && typeof(parseInt(param,10))==='number'){
+									return c[type]['marginRight']+'-'+param+' ';
+								}
+								return c[type][param]+' ';
 							}
 					};
 					return o;
