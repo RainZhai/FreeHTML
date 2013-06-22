@@ -6,8 +6,7 @@ require.config({
 	},
   priority: ['jquery']
 });
-require(['jquery','html'], function ($,_html){
-	require(['classobj'], function (c) {
+require(['jquery','html','classobj'], function ($,_html,c){
 		var html = _html.htmlObj;
 		var provider = _html.classObj.getInstance();
 		var BoxIf = new _html.interface('Box', ['add', 'remove']); 
@@ -26,5 +25,4 @@ require(['jquery','html'], function ($,_html){
 		doc.header.setParent('body');
 		doc.header.addContent(doc.nav);
 		doc.nav.addContent(doc.links_1).addContent(doc.links_2);
-	})
 });
