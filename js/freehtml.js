@@ -56,7 +56,7 @@
 		$.freehtml.classObj=(function(){
 				var uniqueInstance;
 				function constructor() {
-					var o = { 
+					var o = {
 							getClass:function(c/*classes*/,type/*string*/, param/*string*/){
 								if(type==='font' && typeof(parseInt(param,10))==='number'){
 									return c[type]['fontsize']+'-'+param+' ';
@@ -190,6 +190,8 @@
 				/*设置html标签*/
 				getHtml: function(){
 					if(!o.html){
+						//传入参数为string,html对象为传入字符
+						if(typeof(obj)==='string'){ o.html = obj;}
 						if(obj.tagName){
 							var id = (function(){ 
 								if(obj.id){return ' id="'+obj.id+'"';}
@@ -221,19 +223,15 @@
 					return o;
 				},
 				/*设置标签内容*/
-				setContent: function(ele/*string | jq*/){
-					if(ele instanceof jQuery ){
-						o.jQobj.empty().append(ele.jQobj);
-					}else if(typeof(ele) === 'string'){
-						o.jQobj.empty().append(ele);}
+				setContent: function(ele/*string | jq | htmlobj*/){
+					var _ele = ele.jQobj || ele;
+					o.jQobj.empty().append(_ele);
 					return o;
 				},
 				/*添加标签内容*/
-				addContent: function(ele/*string | jq*/){
-					if(ele instanceof jQuery ){
-						o.jQobj.append(ele.jQobj);
-					}else if(typeof(ele) === 'string'){
-						o.jQobj.append(ele);}
+				addContent: function(ele/*string | jq | htmlobj*/){
+					var _ele = ele.jQobj || ele;
+					o.jQobj.append(_ele);
 					return o;
 				},
 				/*添加class样式名*/
