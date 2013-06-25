@@ -36,6 +36,16 @@
       </div>
     </div>
 </div>
-<script src="js/require.js" data-main="js/main"></script>
+<script src="js/lib/require.js" data-main="js/main"></script>
+<script id="people-template" type="text/x-handlebars-template">
+  {{#people}}
+	<div class="person">
+	  <h2>{{first_name}} {{last_name}}</h2>
+	  <div class="phone">{{phone}}</div>
+	  <div class="email"><a href="mailto:{{email}}">{{email}}</a></div>
+	  <div class="since">User since {{member_since}}</div>
+	</div>
+  {{/people}}
+</script>
 </body>
 </html>

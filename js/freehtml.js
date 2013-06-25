@@ -156,21 +156,28 @@
 			})();
 		/*
 		*  html对象声明
-		*	 param 参数对象
-		*  例:var div = new $.htmlUtil.htmlObj({"id":"header","tagName":"div","class":"red","content":"hello world"});
+		*	param 参数对象
+		*	例:var div = new $.htmlUtil.htmlObj({"id":"header","tagName":"div","class":"red","content":"hello world"});
+		*	html('body') 是否给dom元素封装这些方法??
 		*/
 		$.freehtml.htmlObj=function(obj) {
 			var o = {
 				html: null,
 				jQobj: null,
+				parent: null,
+				child: null,
 				/*设置构造器*/
 				constructor: function(){
 					o.getHtml();
 					o.getJQobj();
+					//设置对象的父级元素
+					if(o.parent){ o.setParent(o.parent);}
+					//设置对象的子级元素
+					if(o.child){ o.addContent(o.child);}
 				},
 				/*检查对象属性*/
-				checkObj: function(propName/*string*/) {
-					if(!propName){
+				checkObj: function(propName/*string*/, obj) {
+					if(!(propName in obj)){
 						throw new Error('Invalid property.');
 					}
 				},
@@ -214,21 +221,22 @@
 					return o;
 				},
 				/*设置标签内容*/
-				setContent: function(ele/*string | object*/){
-					if(typeof(ele)==='object'){
-					o.jQobj.empty().append(ele.jQobj);
-					}else{
-					o.jQobj.empty().append(ele);}
+				setContent: function(ele/*string | jq*/){
+					if(ele instanceof jQuery ){
+						o.jQobj.empty().append(ele.jQobj);
+					}else if(typeof(ele) === 'string'){
+						o.jQobj.empty().append(ele);}
 					return o;
 				},
 				/*添加标签内容*/
-				addContent: function(ele/*string | object*/){
-					if(typeof(ele)==='object'){
+				addContent: function(ele/*string | jq*/){
+					if(ele instanceof jQuery ){
 						o.jQobj.append(ele.jQobj);
-					}else{
+					}else if(typeof(ele) === 'string'){
 						o.jQobj.append(ele);}
 					return o;
 				},
+				/*添加class样式名*/
 				classes: function(classes){
 					o.jQobj.addClass(classes);
 					return o;
@@ -241,7 +249,7 @@
 		return $.freehtml;
 	}
 
-	//Register the plugin.
+	//把插件注册到requirejs,Register the plugin.
 	if (typeof define !== 'undefined' && define.amd) {
 		define(['jquery'], plugin);
 	} else if (typeof jQuery !== 'undefined') {
