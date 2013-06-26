@@ -61,17 +61,11 @@
 								if(type==='font' && typeof(parseInt(param,10))==='number'){
 									return c[type]['fontsize']+'-'+param+' ';
 								}
-								return c[type][param]+' ';
-							},
-							getIndent:function(c/*classes*/,type/*string*/, param/*string*/){
 								if(type==='text' && typeof(parseInt(param,10))==='number'){
 									return c[type]['textIndent']+'-'+param+' ';
 								}
-								return c[type][param]+' ';
-							},
-							getWidth:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['width']+'-'+param+' ';
+								if(type==='width' && typeof(parseInt(param,10))==='number'){
+									return c['box']['width']+'-'+param+' ';
 								}
 								return c[type][param]+' ';
 							},

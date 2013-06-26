@@ -10,9 +10,8 @@ require.config({
 require(['jquery','html','classobj','template'], function ($,_html,c,t){
 		var html = _html.htmlObj;
 		var provider = _html.classObj.getInstance();
-		var BoxIf = new _html.interface('Box', ['add']); 
-		//c.font.xxlarge;
-		var links_class = provider.getClass(c,'font','1')+"headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone";
+		var BoxIf = new _html.interface('Box', ['add']);
+		var links_class = provider.getClass(c,'font','1')+ c.font.bold +" headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone";
 		var doc = {
 			'body' : new html('body'),
 			header : new html({"id":"header","tagName":"div","class":"header headerBlue"}),
@@ -44,7 +43,7 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 		doc.userlist.addContent(userlist(data));
 		doc.main.addContent(doc.userlist)
 		var sidebar = t.compile($("#sidebar-template").html());
-		doc.container.addContent(sidebar({category:"test",introduction:"tetetet"})).addContent(doc.main);
+		doc.container.addContent(sidebar({category:"FreeHTML介绍",introduction:"FreeHTML是一个快速创建html页面的框架"})).addContent(doc.main);
 		doc.header2.addContent(doc.header2_child.addContent(doc.header2_link));
 		doc.body.addContent(doc.header).addContent(doc.header2).addContent(doc.container);
 });
