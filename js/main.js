@@ -22,6 +22,9 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 			header2 : new html({"tagName":"div","class":"headerM headerGrey"}),
 			header2_child : new html({"tagName":"div","class":"container positionR"}),
 			header2_link : new html({tagName:"a",class: "textDecNone displayBlock paddingTopLL fontsizeXxlarge",content:"FreeHTML"}),
+			container : new html({"tagName":"div","class":"container marginTop"}),
+			content : new html({"tagName":"div","class":"content"}),
+			main:  new html({"tagName":"div","class":"c_main main mainRight positionR"}),
 			userlist: new html({"tagName":"div"})
 		};
 		doc.header.actions.add = function(ele){
@@ -31,16 +34,17 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 		doc.header.addContent(doc.nav);
 		doc.nav.addContent(doc.links_1).addContent(doc.links_2);
 		// compile our template
-		var template = t.compile($("#people-template").html());
-		
+		var userlist = t.compile($("#people-template").html());
 		var data = {
 			people: [
 				{ first_name: "Alan", last_name: "Johnson", phone: "1234567890", email: "alan@test.com", member_since: "Mar 25, 2011" },
 				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" }
 			]
 		};
-         
-		doc.userlist.addContent(template(data));
+		doc.userlist.addContent(userlist(data));
+		doc.main.addContent(doc.userlist)
+		var sidebar = t.compile($("#sidebar-template").html());
+		doc.container.addContent(sidebar({category:"test",introduction:"tetetet"})).addContent(doc.main);
 		doc.header2.addContent(doc.header2_child.addContent(doc.header2_link));
-		doc.body.addContent(doc.header).addContent(doc.header2).addContent(doc.userlist);
+		doc.body.addContent(doc.header).addContent(doc.header2).addContent(doc.container);
 });

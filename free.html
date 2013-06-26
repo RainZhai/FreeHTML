@@ -11,19 +11,14 @@
 <!--[if lt IE 9]><script type="text/javascript" src="js/html5.js"></script><![endif]-->
 </head>
 
-<body class="body">  
-<div class="container marginTop"> 
-    <div class="content">
-        <div class="sidebar left positionR">
-        <h2 class="category">test</h2>
-        <p>This part is the webpage webpage webpage</p>
-      </div>
-      <div class="c_main main mainRight positionR">
-        <h1>test</h1> 
-      </div>
-    </div>
-</div>
+<body class="body">
 <script src="js/lib/require.js" data-main="js/main"></script>
+<script id="sidebar-template" type="text/x-handlebars-template">
+	<div class="sidebar left positionR">
+	<h2 class="category">{{category}}</h2>
+	<p>{{introduction}}</p>
+	</div>
+</script>
 <script id="people-template" type="text/x-handlebars-template">
   {{#people}}
 	<div class="person">
