@@ -58,82 +58,41 @@
 				function constructor() {
 					var o = {
 							getClass:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='font' && typeof(parseInt(param,10))==='number'){
-									return c[type]['fontsize']+'-'+param+' ';
-								}
-								if(type==='text' && typeof(parseInt(param,10))==='number'){
-									return c[type]['textIndent']+'-'+param+' ';
-								}
-								if(type==='width' && typeof(parseInt(param,10))==='number'){
-									return c['box']['width']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getHeight:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['height']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getPadding:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['padding']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getPaddingTop:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['paddingTop']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getPaddingBottom:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['paddingBottom']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getPaddingLeft:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['paddingLeft']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getPaddingRight:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['paddingRight']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getMargin:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['margin']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getMarginTop:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['marginTop']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getMarginBottom:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['marginBottom']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getMarginLeft:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['marginLeft']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
-							},
-							getMarginRight:function(c/*classes*/,type/*string*/, param/*string*/){
-								if(type==='box' && typeof(parseInt(param,10))==='number'){
-									return c[type]['marginRight']+'-'+param+' ';
-								}
-								return c[type][param]+' ';
+								if(c && type && typeof(parseInt(param,10))==='number'){
+									var name;
+									switch(type){
+										case 'font':
+											name = c[type]['fontsize']+'-'+param+' '; break;
+										case 'text':
+											name = c[type]['textIndent']+'-'+param+' '; break;
+										case 'width':
+											name = c['box']['width']+'-'+param+' '; break;
+										case 'height':
+											name = c['box']['height']+'-'+param+' '; break;
+										case 'padding':
+											name = c['box']['padding']+'-'+param+' '; break;
+										case 'paddingTop':
+											name = c['box']['paddingTop']+'-'+param+' '; break;
+										case 'paddingBottom':
+											name = c['box']['paddingBottom']+'-'+param+' '; break;
+										case 'paddingLeft':
+											name = c['box']['paddingLeft']+'-'+param+' '; break;
+										case 'paddingRight':
+											name = c['box']['paddingRight']+'-'+param+' '; break;
+										case 'margin':
+											name = c['box']['margin']+'-'+param+' '; break;
+										case 'marginTop':
+											name = c['box']['marginTop']+'-'+param+' '; break;
+										case 'marginBottom':
+											name = c['box']['marginBottom']+'-'+param+' '; break;
+										case 'marginLeft':
+											name = c['box']['marginLeft']+'-'+param+' '; break;
+										case 'marginRight':
+											name = c['box']['marginRight']+'-'+param+' '; break;
+									}
+									return name;
+								} 
+								return '';
 							}
 					};
 					return o;
@@ -167,7 +126,7 @@
 					//设置对象的父级元素
 					if(o.parent){ o.setParent(o.parent);}
 					//设置对象的子级元素
-					if(o.child){ o.addContent(o.child);}
+					if(o.child){ o.add(o.child);}
 				},
 				/*检查对象属性*/
 				checkObj: function(propName/*string*/, obj) {
@@ -217,17 +176,28 @@
 					return o;
 				},
 				/*设置标签内容*/
-				setContent: function(ele/*string | jq | htmlobj*/){
+				content: function(ele/*string | jq | htmlobj*/){
 					var _ele = ele.jQobj || ele;
 					o.jQobj.empty().append(_ele);
 					return o;
 				},
 				/*添加标签内容*/
-				addContent: function(ele/*string | jq | htmlobj*/){
+				add: function(ele/*string | jq | htmlobj*/){
 					var _ele = ele.jQobj || ele;
 					o.jQobj.append(_ele);
 					return o;
 				},
+				/*清除标签内容*/
+				remove: function(ele/*string | jq | htmlobj*/){
+					if(ele){
+					var _ele = ele.jQobj || ele;
+					o.jQobj.remove(_ele);
+					}else{
+					o.jQobj.empty();
+					}
+					return o;
+				},
+				//
 				/*添加class样式名*/
 				classes: function(classes){
 					o.jQobj.addClass(classes);

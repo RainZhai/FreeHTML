@@ -11,7 +11,7 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 		var html = _html.htmlObj;
 		var provider = _html.classObj.getInstance();
 		var BoxIf = new _html.interface('Box', ['add']);
-		var links_class = provider.getClass(c,'font','1')+ c.font.bold +" headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone";
+		var links_class = provider.getClass(c,'width','30')+ c.font.bold +" headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone";
 		var doc = {
 			'body' : new html('body'),
 			header : new html({"id":"header","tagName":"div","class":"header headerBlue"}),
@@ -30,8 +30,8 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 			div.jQobj.append(ele);
 		};
 		_html.ensureImplements(doc.header.actions,BoxIf);
-		doc.header.addContent(doc.nav);
-		doc.nav.addContent(doc.links_1).addContent(doc.links_2);
+		doc.header.add(doc.nav);
+		doc.nav.add(doc.links_1).add(doc.links_2);
 		// compile our template
 		var userlist = t.compile($("#people-template").html());
 		var data = {
@@ -40,10 +40,10 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" }
 			]
 		};
-		doc.userlist.addContent(userlist(data));
-		doc.main.addContent(doc.userlist)
+		doc.userlist.add(userlist(data));
+		doc.main.add(doc.userlist)
 		var sidebar = t.compile($("#sidebar-template").html());
-		doc.container.addContent(sidebar({category:"FreeHTML介绍",introduction:"FreeHTML是一个快速创建html页面的框架"})).addContent(doc.main);
-		doc.header2.addContent(doc.header2_child.addContent(doc.header2_link));
-		doc.body.addContent(doc.header).addContent(doc.header2).addContent(doc.container);
+		doc.container.add(sidebar({category:"FreeHTML介绍",introduction:"FreeHTML是一个快速创建html页面的插件"})).add(doc.main);
+		doc.header2.add(doc.header2_child.add(doc.header2_link));
+		doc.body.add(doc.header).add(doc.header2).add(doc.container);
 });
