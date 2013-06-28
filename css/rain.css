@@ -585,6 +585,10 @@ pre-line 	合并空白符序列，但是保留换行符。
 .overflowVisible{ overflow:visible;}
 .visible{ visibility:visible;}
 .visibleFalse{ visibility:hidden;}
+.z-1{z-index:1;}
+.z-100{z-index:100;}
+.z-1000{z-index:1000;}
+.z-10000{z-index:10000;}
 /*	list
 		free properties
 

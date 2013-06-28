@@ -61,14 +61,20 @@
 								if(c && type && typeof(parseInt(param,10))==='number'){
 									var name;
 									switch(type){
-										case 'font':
-											name = c[type]['fontsize']+'-'+param+' '; break;
-										case 'text':
-											name = c[type]['textIndent']+'-'+param+' '; break;
+										case 'fontsize':
+											name = c['font']['fontsize']+'-'+param+' '; break;
+										case 'textIndent':
+											name = c['text']['textIndent']+'-'+param+' '; break;
+										case 'lineHight':
+											name = c['box']['lineHight']+'-'+param+' '; break;
 										case 'width':
 											name = c['box']['width']+'-'+param+' '; break;
+										case 'fwidth':
+											name = c['box']['width-fluid']+'-'+param+' '; break;
 										case 'height':
 											name = c['box']['height']+'-'+param+' '; break;
+										case 'fheight':
+											name = c['box']['height-fluid']+'-'+param+' '; break;
 										case 'padding':
 											name = c['box']['padding']+'-'+param+' '; break;
 										case 'paddingTop':
@@ -89,6 +95,8 @@
 											name = c['box']['marginLeft']+'-'+param+' '; break;
 										case 'marginRight':
 											name = c['box']['marginRight']+'-'+param+' '; break;
+										case 'z':
+											name = c['box']['z']+'-'+param+' '; break;
 									}
 									return name;
 								} 
