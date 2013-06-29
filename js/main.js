@@ -14,17 +14,17 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 		var links_class = provider.getClass(c,'width','30')+ c.font.bold +" headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone";
 		var doc = {
 			'body' : new html('body'),
-			header : new html({"id":"header","tagName":"div","class":"header headerBlue"}),
-			nav : new html({"tagName":"nav","class":"listStyleNo positionR clearfix"}),
+			header : new html({id:"header",tagName:"div",class:"header headerBlue"}),
+			nav : new html({tagName:"nav",class:"listStyleNo positionR clearfix"}),
 			links_1 : new html({tagName:"a",class: links_class,content:"link1"}),
 			links_2 : new html({tagName:"a",class: links_class,content:"link2"}),
-			header2 : new html({"tagName":"div","class":"headerM headerGrey"}),
-			header2_child : new html({"tagName":"div","class":"container positionR"}),
+			header2 : new html({tagName:"div",class:"headerM headerGrey"}),
+			header2_child : new html({tagName:"div",class:"container positionR"}),
 			header2_link : new html({tagName:"a",class: "textDecNone displayBlock paddingTopLL fontsizeXxlarge",content:"FreeHTML"}),
-			container : new html({"tagName":"div","class":"container marginTop"}),
-			content : new html({"tagName":"div","class":"content"}),
-			main:  new html({"tagName":"div","class":"c_main main mainRight positionR"}),
-			userlist: new html({"tagName":"div"})
+			container : new html({tagName:"div",class:"container marginTop"}),
+			content : new html({tagName:"div",class:"content"}),
+			main:  new html({tagName:"div",class:"c_main main mainRight positionR",child: new html({tagName:'div',content:"FreeHTML"})}),
+			userlist: new html({tagName:"div"})
 		};
 		doc.header.actions.add = function(ele){
 			div.jQobj.append(ele);
@@ -41,7 +41,9 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 			]
 		};
 		doc.userlist.add(userlist(data));
-		doc.main.add(doc.userlist)
+		console.log(doc.main.child);
+		doc.main.add(doc.userlist);
+			//.add('article.html .main','url');
 		var sidebar = t.compile($("#sidebar-template").html());
 		doc.container.add(sidebar({category:"FreeHTML介绍",introduction:"FreeHTML是一个快速创建html页面的插件"})).add(doc.main);
 		doc.header2.add(doc.header2_child.add(doc.header2_link));

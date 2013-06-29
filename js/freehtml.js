@@ -134,11 +134,11 @@
 					o.getHtml();
 					o.getJQobj();
 					//设置对象的父级元素
-					if(o.parent){ o.setParent(o.parent);}
+					if(obj.parent){ o.setParent(obj.parent);}
 					//设置对象的子级元素
-					if(o.child){ o.add(o.child);}
+					if(obj.child){o.add(obj.child);}
 					//加载远程内容
-					if(o.url){o.load(o.url);}
+					if(obj.url){o.load(obj.url);}
 				},
 				/*检查对象属性*/
 				checkObj: function(propName/*string*/, obj) {
@@ -209,7 +209,7 @@
 				load: function(url/*url,[data,[callback]]*/){
 					o.jQobj.load(url);
 					return o;
-				}
+				},
 				/*清除标签内容*/
 				remove: function(ele/*string | jq | htmlobj*/){
 					if(ele){
