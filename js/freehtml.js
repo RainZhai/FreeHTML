@@ -119,7 +119,7 @@
 		*  html对象声明
 		*	param 参数对象
 		*	例:var div = new $.htmlUtil.htmlObj({"id":"header","tagName":"div","class":"red","content":"hello world"});
-		*	html('body') 是否给dom元素封装这些方法??
+		*	
 		*/
 		$.freehtml.htmlObj=function(obj) {
 			var o = {
@@ -127,6 +127,8 @@
 				jQobj: null,
 				parent: null,
 				child: null,
+				url: null,/*指定对象url*/
+				view: null,/*指定对象视图，用来作action动作分配*/
 				/*设置构造器*/
 				constructor: function(){
 					o.getHtml();
@@ -135,6 +137,8 @@
 					if(o.parent){ o.setParent(o.parent);}
 					//设置对象的子级元素
 					if(o.child){ o.add(o.child);}
+					//加载远程内容
+					if(o.url){o.load(o.url);}
 				},
 				/*检查对象属性*/
 				checkObj: function(propName/*string*/, obj) {
@@ -151,7 +155,7 @@
 				/*设置html标签*/
 				getHtml: function(){
 					if(!o.html){
-						//传入参数为string,html对象为传入字符
+						//传入参数为string,html对象为传入字符,方便获取页面现有html标签并封装成htmlobj
 						if(typeof(obj)==='string'){ o.html = obj;}
 						if(obj.tagName){
 							var id = (function(){ 
@@ -180,7 +184,9 @@
 				},
 				/*设置父元素*/
 				setParent: function(selector/*string*/){
-					$(selector).append(o.getJQobj());
+					var _parent = selector.jQobj || selector;
+					if(!(_parent instanceof jQuery)){ _parent = $(_parent);}
+					_parent.append(o.getJQobj());
 					return o;
 				},
 				/*设置标签内容*/
@@ -189,12 +195,21 @@
 					o.jQobj.empty().append(_ele);
 					return o;
 				},
-				/*添加标签内容*/
-				add: function(ele/*string | jq | htmlobj*/){
+				/*添加标签内容 指定类型若为url则进行加载*/
+				add: function(ele/*string | jq | htmlobj*/,type){
 					var _ele = ele.jQobj || ele;
-					o.jQobj.append(_ele);
+					if(!type){
+						o.jQobj.append(_ele);
+					}else if(type==='url' && typeof(ele)==='string'){
+						o.load(ele);
+					}
 					return o;
 				},
+				/*载入指定url里面的内容*/
+				load: function(url/*url,[data,[callback]]*/){
+					o.jQobj.load(url);
+					return o;
+				}
 				/*清除标签内容*/
 				remove: function(ele/*string | jq | htmlobj*/){
 					if(ele){
