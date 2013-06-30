@@ -117,7 +117,7 @@
 			})();
 		/*
 		*  html对象声明
-		*	param 参数对象
+		*	@ param 参数对象 {view 指定视图名/}
 		*	例:var div = new $.htmlUtil.htmlObj({"id":"header","tagName":"div","class":"red","content":"hello world"});
 		*	
 		*/
