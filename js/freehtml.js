@@ -125,7 +125,7 @@
 		/**
 		*	@description html对象声明
 		*	@param {Object} 参数对象
-		*	@example var div = new $.htmlUtil.htmlObj({"id":"header","tagName":"div","class":"red","content":"hello world"});
+		*	@example var div = new $.htmlUtil.htmlObj({id:'header',tagName:'div',class:'red',content:'hello world',css:{color:'red'}});
 		*	
 		*/
 		$.freehtml.htmlObj=function(obj) {
@@ -144,8 +144,10 @@
 					if(obj.parent){ o.setParent(obj.parent);}
 					/** 设置对象的子级元素*/
 					if(obj.child){o.add(obj.child);}
-					//** 加载远程内容*/
+					/** 加载远程内容*/
 					if(obj.url){o.load(obj.url);}
+					/** 设置默认样式*/
+					if(obj.css){o.css(obj.css);}
 				},
 				/** 检查对象属性*/
 				checkObj: function(propName/*string*/, obj) {
@@ -174,7 +176,7 @@
 								return ' ';
 							})();
 							var content = (function(){ 
-								if(obj.content){return obj.content;}
+								if(typeof(obj.content)==='string'){return obj.content;}
 								return '';
 							})();
 							o.html = "<"+obj.tagName+id+classes+">"+content+"</"+obj.tagName+">";
@@ -204,11 +206,15 @@
 				},
 				/** 添加标签内容 指定类型若为url则进行加载*/
 				add: function(ele/*string | jq | htmlobj*/,type){
-					var _ele = ele.jQobj || ele;
-					if(!type){
-						o.jQobj.append(_ele);
-					}else if(type==='url' && typeof(ele)==='string'){
-						o.load(ele);
+					if(ele){
+						if(!type){
+							var _ele = ele.jQobj || ele;
+							o.jQobj.append(_ele);
+						}else if(type==='url' && typeof(ele)==='string'){
+							o.load(ele);
+						}
+					}else{
+						throw new Error('parameter is invalid');
 					}
 					return o;
 				},
