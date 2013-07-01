@@ -2,12 +2,18 @@
 *	define jquery plugin freehtml
 */
 (function() {
+	/**
+	* @description 为requirejs注册一个插件Register a plugin.
+	* @param {Object}  - The plugin Object.
+	*/
 	function plugin($){
 		$.freehtml = {};
-		/*
-		*  接口声明
-		*	 param 1,名称;2,方法数组
-		*  例:var BoxIf = new $.rainUtil.interface('Box', ['add', 'remove']);
+		/**
+		*	@description 接口声明
+		*	@constructor
+		*	@param {string} name - 接口名称 The name of the interface.
+		*	@param {Array} methods - 接口下的方法 The methods in the interface
+		*	@example var BoxIf = new $.rainUtil.interface('Box', ['add', 'remove']);
 		*/
 		$.freehtml.interface = function(name, methods) { 
 			if(arguments.length != 2) {
@@ -24,10 +30,11 @@
 			}
 		}
 		
-		/*
-		*  接口实现检查
-		*	 param 1,函数;2,接口
-		*  例:$.htmlUtil.ensureImplements(div.actions,BoxIf);
+		/** 
+		*	@description 检查方法是否实现了接口
+		*	@param {Function} 函数
+		*	@param {string} 接口名称
+		*	@example $.htmlUtil.ensureImplements(div.actions,BoxIf);
 		*/
 		$.freehtml.ensureImplements = function(object) {
 			if(arguments.length < 2) {
@@ -49,9 +56,9 @@
 				}
 			} 
 		};
-		/*
-		*  class单体对象声明
-		*  例:var c = $.htmlUtil.classObj.getInstance();
+		/**
+		*  @description 单体对象声明
+		*  @example var c = $.htmlUtil.classObj.getInstance();
 		*/
 		$.freehtml.classObj=(function(){
 				var uniqueInstance;
@@ -115,10 +122,10 @@
 					}
 				}
 			})();
-		/*
-		*  html对象声明
-		*	@ param 参数对象 {view 指定视图名/}
-		*	例:var div = new $.htmlUtil.htmlObj({"id":"header","tagName":"div","class":"red","content":"hello world"});
+		/**
+		*	@description html对象声明
+		*	@param {Object} 参数对象
+		*	@example var div = new $.htmlUtil.htmlObj({"id":"header","tagName":"div","class":"red","content":"hello world"});
 		*	
 		*/
 		$.freehtml.htmlObj=function(obj) {
@@ -127,20 +134,20 @@
 				jQobj: null,
 				parent: null,
 				child: null,
-				url: null,/*指定对象url*/
-				view: null,/*指定对象视图，用来作action动作分配*/
-				/*设置构造器*/
+				url: null,/** 指定对象url*/
+				view: null,/** 指定对象视图，用来作action动作分配*/
+				/** 设置构造器*/
 				constructor: function(){
 					o.getHtml();
 					o.getJQobj();
-					//设置对象的父级元素
+					/** 设置对象的父级元素*/
 					if(obj.parent){ o.setParent(obj.parent);}
-					//设置对象的子级元素
+					/** 设置对象的子级元素*/
 					if(obj.child){o.add(obj.child);}
-					//加载远程内容
+					//** 加载远程内容*/
 					if(obj.url){o.load(obj.url);}
 				},
-				/*检查对象属性*/
+				/** 检查对象属性*/
 				checkObj: function(propName/*string*/, obj) {
 					if(!(propName in obj)){
 						throw new Error('Invalid property.');
@@ -148,14 +155,14 @@
 				},
 				/*设置默认动作*/
 				actions: function(){},
-				/*设置样式*/
+				/** 设置样式*/
 				css: function(obj){
 					o.jQobj.css(obj);
 				},
-				/*设置html标签*/
+				/** 设置html标签*/
 				getHtml: function(){
 					if(!o.html){
-						//传入参数为string,html对象为传入字符,方便获取页面现有html标签并封装成htmlobj
+						/** 传入参数为string,html对象为传入字符,方便获取页面现有html标签并封装成htmlobj */
 						if(typeof(obj)==='string'){ o.html = obj;}
 						if(obj.tagName){
 							var id = (function(){ 
@@ -175,27 +182,27 @@
 					}
 					return o.html;
 				},
-				/*获取jq对象*/
+				/** 获取jq对象*/
 				getJQobj: function(){
 					if(!o.jQobj){
 						if(o.html){ o.jQobj =  $(o.html); }
 					}
 					return o.jQobj;
 				},
-				/*设置父元素*/
+				/** 设置父元素*/
 				setParent: function(selector/*string*/){
 					var _parent = selector.jQobj || selector;
 					if(!(_parent instanceof jQuery)){ _parent = $(_parent);}
 					_parent.append(o.getJQobj());
 					return o;
 				},
-				/*设置标签内容*/
+				/** 设置标签内容*/
 				content: function(ele/*string | jq | htmlobj*/){
 					var _ele = ele.jQobj || ele;
 					o.jQobj.empty().append(_ele);
 					return o;
 				},
-				/*添加标签内容 指定类型若为url则进行加载*/
+				/** 添加标签内容 指定类型若为url则进行加载*/
 				add: function(ele/*string | jq | htmlobj*/,type){
 					var _ele = ele.jQobj || ele;
 					if(!type){
@@ -205,12 +212,12 @@
 					}
 					return o;
 				},
-				/*载入指定url里面的内容*/
+				/** 载入指定url里面的内容*/
 				load: function(url/*url,[data,[callback]]*/){
 					o.jQobj.load(url);
 					return o;
 				},
-				/*清除标签内容*/
+				/** 清除标签内容*/
 				remove: function(ele/*string | jq | htmlobj*/){
 					if(ele){
 					var _ele = ele.jQobj || ele;
@@ -220,8 +227,7 @@
 					}
 					return o;
 				},
-				//
-				/*添加class样式名*/
+				/** 添加class样式名*/
 				classes: function(classes){
 					o.jQobj.addClass(classes);
 					return o;
@@ -234,7 +240,7 @@
 		return $.freehtml;
 	}
 
-	//把插件注册到requirejs,Register the plugin.
+	/**把插件注册到requirejs,Register the plugin. */
 	if (typeof define !== 'undefined' && define.amd) {
 		define(['jquery'], plugin);
 	} else if (typeof jQuery !== 'undefined') {
