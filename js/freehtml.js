@@ -47,6 +47,39 @@
 			superClass.prototype.constructor = superClass;
 		  }
 		}
+		/**
+		*	@description 原型继承
+		*	@method
+		*	@param {object} object 对象 - 要进行克隆的对象
+		*	@example var a = $.freehtml.clone(Person);
+		*/
+		$.freehtml.clone = function(object) {
+			function F(){};
+			F.prototype = object;
+			return new F;
+		}
+		/**
+		*
+		*	@description Augment function, improved. 
+		*@method
+		*	@param {object} receivingClass - 接受mixin的对象
+		*	@param {object} givingClass - 提供mixin的对象
+		*	@example var a = $.freehtml.augment(Teacher,Person);
+		*/
+		$.freehtml.augment = function(receivingClass, givingClass) {
+			if(arguments[2]) { // Only give certain methods.
+				for(var i = 2, len = arguments.length; i < len; i++) {
+					receivingClass.prototype[arguments[i]] = givingClass.prototype[arguments[i]];
+				}
+			} 
+			else { // Give all methods.
+				for(methodName in givingClass.prototype) { 
+					if(!receivingClass.prototype[methodName]) {
+						receivingClass.prototype[methodName] = givingClass.prototype[methodName];
+					}
+				}
+			}
+		}
 		/** 
 		*	@description 检查方法是否实现了接口
 		*	@method
