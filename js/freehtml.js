@@ -131,7 +131,7 @@
 		$.freehtml.htmlObj=function(obj) {
 			var o = {
 				html: null,
-				jQobj: null,
+				jq: null,
 				parent: null,
 				child: null,
 				url: null,/** 指定对象url*/
@@ -159,7 +159,7 @@
 				actions: function(){},
 				/** 设置样式*/
 				css: function(obj){
-					o.jQobj.css(obj);
+					o.jq.css(obj);
 				},
 				/** 设置html标签*/
 				getHtml: function(){
@@ -186,30 +186,30 @@
 				},
 				/** 获取jq对象*/
 				getJQobj: function(){
-					if(!o.jQobj){
-						if(o.html){ o.jQobj =  $(o.html); }
+					if(!o.jq){
+						if(o.html){ o.jq =  $(o.html); }
 					}
-					return o.jQobj;
+					return o.jq;
 				},
 				/** 设置父元素*/
 				setParent: function(selector/*string*/){
-					var _parent = selector.jQobj || selector;
+					var _parent = selector.jq || selector;
 					if(!(_parent instanceof jQuery)){ _parent = $(_parent);}
 					_parent.append(o.getJQobj());
 					return o;
 				},
 				/** 设置标签内容*/
 				content: function(ele/*string | jq | htmlobj*/){
-					var _ele = ele.jQobj || ele;
-					o.jQobj.empty().append(_ele);
+					var _ele = ele.jq || ele;
+					o.jq.empty().append(_ele);
 					return o;
 				},
 				/** 添加标签内容 指定类型若为url则进行加载*/
 				add: function(ele/*string | jq | htmlobj*/,type){
 					if(ele){
 						if(!type){
-							var _ele = ele.jQobj || ele;
-							o.jQobj.append(_ele);
+							var _ele = ele.jq || ele;
+							o.jq.append(_ele);
 						}else if(type==='url' && typeof(ele)==='string'){
 							o.load(ele);
 						}
@@ -220,22 +220,22 @@
 				},
 				/** 载入指定url里面的内容*/
 				load: function(url/*url,[data,[callback]]*/){
-					o.jQobj.load(url);
+					o.jq.load(url);
 					return o;
 				},
 				/** 清除标签内容*/
 				remove: function(ele/*string | jq | htmlobj*/){
 					if(ele){
-					var _ele = ele.jQobj || ele;
-					o.jQobj.remove(_ele);
+					var _ele = ele.jq || ele;
+					o.jq.remove(_ele);
 					}else{
-					o.jQobj.empty();
+					o.jq.empty();
 					}
 					return o;
 				},
 				/** 添加class样式名*/
 				classes: function(classes){
-					o.jQobj.addClass(classes);
+					o.jq.addClass(classes);
 					return o;
 				}
 			};

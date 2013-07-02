@@ -27,7 +27,7 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 			userlist: new html({tagName:"div"})
 		};
 		doc.header.actions.add = function(ele){
-			div.jQobj.append(ele);
+			div.jq.append(ele);
 		};
 		_html.ensureImplements(doc.header.actions,BoxIf);
 		doc.header.add(doc.nav);
@@ -46,6 +46,7 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 			//.add('article.html .main','url');
 		var sidebar = t.compile($("#sidebar-template").html());
 		doc.container.add(sidebar({category:"FreeHTML介绍",introduction:"FreeHTML是一个快速创建html页面的插件"})).add(doc.main);
+		
 		doc.header2.add(doc.header2_child.add(doc.header2_link));
 		doc.body.add(doc.header).add(doc.header2).add(doc.container);
 });
