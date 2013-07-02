@@ -14,16 +14,16 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 		var links_class = provider.getClass(c,'width','30')+ c.font.bold +" headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone";
 		var doc = {
 			'body' : new html('body'),
-			header : new html({id:"header",tagName:"div",class:"header headerBlue"}),
-			nav : new html({tagName:"nav",class:"listStyleNo positionR clearfix"}),
-			links_1 : new html({tagName:"a",class: links_class,content:"link1"}),
-			links_2 : new html({tagName:"a",class: links_class,content:"link2"}),
-			header2 : new html({tagName:"div",class:"headerM headerGrey"}),
-			header2_child : new html({tagName:"div",class:"container positionR"}),
-			header2_link : new html({tagName:"a",class: "textDecNone displayBlock paddingTopLL fontsizeXxlarge",content:"FreeHTML"}),
-			container : new html({tagName:"div",class:"container marginTop"}),
-			content : new html({tagName:"div",class:"content"}),
-			main:  new html({tagName:"div",class:"c_main main mainRight positionR",child: new html({tagName:'div',content:"FreeHTML"})}),
+			header : new html({id:"header",tagName:"div",classes:"header headerBlue"}),
+			nav : new html({tagName:"nav",classes:"listStyleNo positionR clearfix"}),
+			links_1 : new html({tagName:"a",classes: links_class,content:"link1"}),
+			links_2 : new html({tagName:"a",classes: links_class,content:"link2"}),
+			header2 : new html({tagName:"div",classes:"headerM headerGrey"}),
+			header2_child : new html({tagName:"div",classes:"container positionR"}),
+			header2_link : new html({tagName:"a",classes: "textDecNone displayBlock paddingTopLL fontsizeXxlarge",content:"FreeHTML"}),
+			container : new html({tagName:"div",classes:"container marginTop"}),
+			content : new html({tagName:"div",classes:"content"}),
+			main:  new html({tagName:"div",classes:"c_main main mainRight positionR",child: new html({tagName:'div',content:"FreeHTML"})}),
 			userlist: new html({tagName:"div"})
 		};
 		doc.header.actions.add = function(ele){
