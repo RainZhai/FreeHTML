@@ -222,6 +222,12 @@
 						/** 传入参数为string,html对象为传入字符,方便获取页面现有html标签并封装成htmlobj */
 						if(typeof(obj)==='string'){ o.html = obj;}
 						if(obj.tagName){
+							if(obj.props){
+								var p =' ';
+								for(var s in obj.props){
+									p = p + s + '="'+obj.props[s]+'"';
+								}
+							}
 							var id = (function(){ 
 								if(typeof(obj.id)==='string'){return ' id="'+obj.id+'"';}
 								return ' ';
@@ -230,7 +236,7 @@
 								if(typeof(obj.classes)==='string'){return ' class="'+obj.classes+'"';}
 								return ' ';
 							})();
-							var content = (function(){ 
+							var content = (function(){
 								if(typeof(obj.content)==='string'){return obj.content;}
 								return '';
 							})();
