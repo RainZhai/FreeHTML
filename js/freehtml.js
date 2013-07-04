@@ -202,6 +202,11 @@
 					if(obj.url){o.load(obj.url);}
 					/** 设置默认样式*/
 					if(obj.css){o.css(obj.css);}
+					/** 添加事件 */
+					if(obj.events){
+						for(var s in obj.events)
+						o.jq.on(s,obj.events[s]);
+					}
 				},
 				/** 
 				*	@method 检查对象属性*/
@@ -222,12 +227,15 @@
 						/** 传入参数为string,html对象为传入字符,方便获取页面现有html标签并封装成htmlobj */
 						if(typeof(obj)==='string'){ o.html = obj;}
 						if(obj.tagName){
+							var prop = (function(){
 							if(obj.props){
 								var p =' ';
-								for(var s in obj.props){
-									p = p + s + '="'+obj.props[s]+'"';
-								}
+								for(var s in obj.props)
+									p = p + s + '="'+obj.props[s]+'"'; 
+								return p;
 							}
+							return ' ';
+							})();
 							var id = (function(){ 
 								if(typeof(obj.id)==='string'){return ' id="'+obj.id+'"';}
 								return ' ';
@@ -249,14 +257,14 @@
 									if(typeof(obj.height)==='number'){return ' height="'+obj.height+'"';}
 									return ' ';
 								})();
-								o.html = "<"+obj.tagName+id+c+w+h+" src='"+obj.src+"' />";
+								o.html = "<"+obj.tagName+id+c+prop+w+h+" src='"+obj.src+"' />";
 								return o.html;
 							}
 							if(obj.tagName === 'a' && obj.href){
-								o.html = "<"+obj.tagName+id+c+" href="+obj.href+">"+content+"</"+obj.tagName+">";
+								o.html = "<"+obj.tagName+id+c+prop+" href="+obj.href+">"+content+"</"+obj.tagName+">";
 								return o.html;
 							}
-							o.html = "<"+obj.tagName+id+c+">"+content+"</"+obj.tagName+">";
+							o.html = "<"+obj.tagName+id+c+prop+">"+content+"</"+obj.tagName+">";
 						}
 					}
 					return o.html;

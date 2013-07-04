@@ -16,7 +16,7 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 			'body' : new html('body'),
 			header : new html({id:"header",tagName:"div",classes:"header headerBlue"}),
 			nav : new html({tagName:"nav",classes:"listStyleNo positionR clearfix"}),
-			links_1 : new html({tagName:"a",classes: links_class,content:"link1"}),
+			links_1 : new html({tagName:"a",classes: links_class,content:"link1",events:{click:function(){alert(111);}}}),
 			links_2 : new html({tagName:"a",classes: links_class,content:"link2"}),
 			header2 : new html({tagName:"div",classes:"headerM headerGrey"}),
 			header2_child : new html({tagName:"div",classes:"container positionR"}),
