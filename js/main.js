@@ -3,7 +3,8 @@ require.config({
 	paths: {
 		jquery: 'lib/jquery-1.10.1.min',
 		template: 'lib/handlebars',
-		html: 'freehtml'
+		html: 'freehtml',
+		two: 'lib/two.min.js'
 	},
   priority: ['jquery']
 });
