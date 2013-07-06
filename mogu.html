@@ -8,26 +8,10 @@
 <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
 <!--[if lte IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
 <link rel="stylesheet" href="css/rain.css" type="text/css" media="screen, projection"/>
-<!--[if lt IE 9]><script type="text/javascript" src="js/lib/html5.js"></script><![endif]-->
+<!--[if lt IE 9]><script type="text/javascript" src="js/html5.js"></script><![endif]-->
 </head>
 
 <body class="body">
-<script src="js/lib/require.js" data-main="js/main"></script>
-<script id="sidebar-template" type="text/x-handlebars-template">
-	<div class="sidebar bgLightGrey left positionR">
-	<h2 class="category">{{category}}</h2>
-	<p class="paddingS">{{introduction}}</p>
-	</div>
-</script>
-<script id="people-template" type="text/x-handlebars-template">
-  {{#people}}
-	<div class="person">
-	  <h2>{{first_name}} {{last_name}}</h2>
-	  <div class="phone">{{phone}}</div>
-	  <div class="email"><a href="mailto:{{email}}">{{email}}</a></div>
-	  <div class="since">User since {{member_since}}</div>
-	</div>
-  {{/people}}
-</script>
+<script src="js/lib/require.js" data-main="js/game"></script>
 </body>
 </html>
