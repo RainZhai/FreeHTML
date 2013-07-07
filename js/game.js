@@ -15,8 +15,8 @@ require(['jquery','html','classobj'], function ($,_html,c){
 	var provider = _html.classObj.getInstance();
 	var doc = {
 		'body' : new html('body'),
-		container : new html({tagName:"canvas",id:'canvas',css:{width: 480,height: 320}}),
-		startBtn: new html({tagName:"img",id:'doc.startBtn'})
+		container : new html('#canvas'),
+		startBtn: new html({tagName:"img",id:'startBtn',src:'images/START-Button.png',css:{width:100,height:37}})
 	};
     //全局变量   
     var backgroundForestImg = new Image();//森林背景图   
@@ -74,7 +74,7 @@ require(['jquery','html','classobj'], function ($,_html,c){
         ctx.clearRect(0, 0, screenWidth, screenHeight);   
         ctx.save();   
         //绘制背景   
-        ctx.drawImage(backgroundForestImg, 0, 0);   
+        ctx.drawImage(backgroundForestImg, 0, 0, screenWidth, screenHeight);   
         //绘制蘑菇   
         ctx.drawImage(mushroom.image, mushroom.x, mushroom.y); 
 		//绘制奖品
@@ -366,7 +366,7 @@ require(['jquery','html','classobj'], function ($,_html,c){
     //初始化     
 		AddEventHandlers();//添加事件  
         LoadImages();           
-        ctx = doc.container[0].getContext('2d'); //获取2d画布      
+        ctx = doc.container.jq[0].getContext('2d'); //获取2d画布      
         screenWidth = 480; //画布宽度 
         screenHeight = 320;   
 		//初始化蘑菇
@@ -378,5 +378,5 @@ require(['jquery','html','classobj'], function ($,_html,c){
 		//初始化奖品
 		InitPrizes();
           
-	doc.body.add(doc.container);
+	doc.body.add(doc.container).add(doc.startBtn);
 });
