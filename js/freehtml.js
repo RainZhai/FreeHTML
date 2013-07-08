@@ -8,6 +8,19 @@
 	*/
 	function plugin($){
 		$.freehtml = {};
+		$.freehtml.create = function(obj){
+			if(arguments<1){ throw new Error('Can not create element with no argument');}
+			var ele = document.createElement(obj);
+			if(arguments[1]){
+				for(var s in arguments[1])
+					ele.style[s] = arguments[1][s];
+			}
+			if(arguments[2]){
+				for(var p in arguments[2])
+					ele[p] = arguments[2][p];
+			}
+			return ele;
+		}
 		/**
 		*	@description 接口声明
 		*	@constructor
@@ -71,8 +84,7 @@
 				for(var i = 2, len = arguments.length; i < len; i++) {
 					receivingClass.prototype[arguments[i]] = givingClass.prototype[arguments[i]];
 				}
-			} 
-			else { // Give all methods.
+			}else { // Give all methods.
 				for(methodName in givingClass.prototype) { 
 					if(!receivingClass.prototype[methodName]) {
 						receivingClass.prototype[methodName] = givingClass.prototype[methodName];
