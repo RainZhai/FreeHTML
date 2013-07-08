@@ -177,7 +177,7 @@
 			})();
 		/**
 		*	@description html对象声明
-		*	@method
+		*	@constructor
 		*	@param {Object} 参数对象
 		*	@example var div = new $.freehtml.htmlObj({id:'header',tagName:'div',class:'red',content:'hello world',css:{color:'red'}});
 		*	
@@ -236,35 +236,33 @@
 							}
 							return ' ';
 							})();
-							var id = (function(){ 
-								if(typeof(obj.id)==='string'){return ' id="'+obj.id+'"';}
+							var id = (function(){ if(typeof(obj.id)==='string'){return ' id="'+obj.id+'"';}
 								return ' ';
 							})();
-							var c = (function(){ 
-								if(typeof(obj.classes)==='string'){return ' class="'+obj.classes+'"';}
+							var c = (function(){ if(typeof(obj.classes)==='string'){return ' class="'+obj.classes+'"';}
 								return ' ';
 							})();
 							var content = (function(){
 								if(typeof(obj.content)==='string'){return obj.content;}
 								return '';
 							})();
+							var w = (function(){ 
+								if(typeof(obj.width)==='number'){return ' width="'+obj.width+'"';}
+								return ' ';
+							})();
+							var h = (function(){ 
+								if(typeof(obj.height)==='number'){return ' height="'+obj.height+'"';}
+								return ' ';
+							})();
 							if(obj.tagName === 'img' && obj.src){
-								var w = (function(){ 
-									if(typeof(obj.width)==='number'){return ' width="'+obj.width+'"';}
-									return ' ';
-								})();
-								var h = (function(){ 
-									if(typeof(obj.height)==='number'){return ' height="'+obj.height+'"';}
-									return ' ';
-								})();
 								o.html = "<"+obj.tagName+id+c+prop+w+h+" src='"+obj.src+"' />";
 								return o.html;
 							}
 							if(obj.tagName === 'a' && obj.href){
-								o.html = "<"+obj.tagName+id+c+prop+" href="+obj.href+">"+content+"</"+obj.tagName+">";
+								o.html = "<"+obj.tagName+id+c+prop+W+h+" href="+obj.href+">"+content+"</"+obj.tagName+">";
 								return o.html;
 							}
-							o.html = "<"+obj.tagName+id+c+prop+">"+content+"</"+obj.tagName+">";
+							o.html = "<"+obj.tagName+id+c+prop+w+h+">"+content+"</"+obj.tagName+">";
 						}
 					}
 					return o.html;

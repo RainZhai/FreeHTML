@@ -4,20 +4,48 @@ require.config({
 		jquery: 'lib/jquery-1.10.1.min',
 		template: 'lib/handlebars',
 		twojs: 'lib/two.min.js',
-		backbone: 'backbone-min',
-		underscore: 'underscore-min',
+		backbone: 'lib/backbone-min',
+		underscore: 'lib/underscore-min',
+		quark: 'lib/quark.base-1.0.0',
 		html: 'freehtml'
 	},
   priority: ['jquery']
 });
-require(['jquery','html','classobj'], function ($,_html,c){
+require(['jquery','html','classobj','quark'], function ($,_html,c,q){
 	var html = _html.htmlObj;
 	var provider = _html.classObj.getInstance();
+	var container, params, timer, stage, context, em, squirrel;
 	var doc = {
 		'body' : new html('body'),
-		container : new html('#canvas'),
+		container : new html('#container'),
 		startBtn: new html({tagName:"img",id:'startBtn',src:'images/START-Button.png',css:{width:100,height:37}})
 	};
+	params = Q.getUrlParams();
+	if(params.canvas){
+		var canvas = Quark.createDOM("canvas", {width:480, height:320, style:{position:"absolute"}});
+		doc.container.appendChild(canvas);
+		context = new Quark.CanvasContext({canvas:canvas});
+	}else{
+		context = new Q.DOMContext({canvas:doc.container});
+	}	  
+	
+	//初始化舞台
+	stage = new Q.Stage({context:context, width:480, height:320, 
+	update:function()
+	{
+		frames++;
+	}});
+	
+	//初始化timer并启动
+	timer = new Q.Timer(1000/30);
+	timer.addListener(stage);
+	timer.start();
+
+	//注册舞台事件，使舞台上的元素能接收交互事件
+	em = new Q.EventManager();
+	var events = Q.supportTouch ? ["touchend"] : ["mouseup"];
+	em.registerStage(stage, events, true, true);
+	//-------------------------------------------------------
     //全局变量   
     var backgroundForestImg = new Image();//森林背景图   
     var mushroomImg = new Image();//蘑菇 
