@@ -2,18 +2,30 @@
 *	define jquery plugin freehtml
 */
 (function() {
+	(function(){
+		if(!window.console){window.console = function(){};window.console.info = window.console.log = window.console.error = function(str){alert(str);}}
+	}());
 	/**
 	* @description 为requirejs注册一个插件Register a plugin.
 	* @param {Object}  - The plugin Object.
 	*/
 	function plugin($){
 		$.freehtml = {};
+		/**
+		*	@description 接口声明
+		*	@class
+		*	@param {string} name - dom对象名称 The name of the html element.
+		*	@param {object} [可选]样式对象
+		*	@param {object} [可选]属性对象
+		*	@example var dom = _html.create('p',{'height':'40px','background':'#000'},{'title':'sdfds'});
+		*/
 		$.freehtml.create = function(obj){
 			if(arguments<1){ throw new Error('Can not create element with no argument');}
 			var ele = document.createElement(obj);
+			var _style = ele.style;
 			if(arguments[1]){
 				for(var s in arguments[1])
-					ele.style[s] = arguments[1][s];
+					_style[s] = arguments[1][s];
 			}
 			if(arguments[2]){
 				for(var p in arguments[2])
