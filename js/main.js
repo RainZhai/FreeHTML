@@ -16,7 +16,7 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 		var doc = {
 			'body' : new html('body'),
 			header : new html({id:"header",tagName:"div",classes:"header headerBlue"}),
-			nav : new html({tagName:"nav",classes:"listStyleNo positionR clearfix"}),
+			nav : new html({id:'nav',tagName:"nav",classes:"listStyleNo positionR clearfix"}),
 			links_1 : new html({tagName:"a",classes: links_class,content:"link1",events:{click:function(){alert(111);}}}),
 			links_2 : new html({tagName:"a",classes: links_class,content:"link2"}),
 			header2 : new html({tagName:"div",classes:"headerM headerGrey"}),
@@ -32,7 +32,7 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 		};
 		_html.ensureImplements(doc.header.actions,BoxIf);
 		doc.header.add(doc.nav);
-		doc.nav.add(doc.links_1).add(doc.links_2);
+		doc.nav.add(doc.links_1,doc.links_2);
 		// compile our template
 		var userlist = t.compile($("#people-template").html());
 		var data = {
@@ -49,5 +49,6 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 		doc.container.add(sidebar({category:"FreeHTML介绍",introduction:"FreeHTML是一个快速创建html页面的插件"})).add(doc.main);
 		
 		doc.header2.add(doc.header2_child.add(doc.header2_link));
-		doc.body.add(doc.header).add(doc.header2).add(doc.container);
+		doc.body.add(doc.header,doc.header2,doc.container);
+		//doc.body.add("#header,#nav");
 });

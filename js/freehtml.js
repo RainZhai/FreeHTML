@@ -220,6 +220,22 @@
 						o.jq.on(s,obj.events[s]);
 					}
 				},
+				/**	@method
+				*		@private 添加标签内容 指定类型若为url则进行加载
+				*/
+				_add: function(ele/*string | jq | htmlobj*/,type){
+					if(ele){
+						if(!type){
+							var _ele = ele.jq || ele;
+							o.jq.append(_ele);
+						}else if(type==='url' && typeof(ele)==='string'){
+							o.load(ele);
+						}
+					}else{
+						throw new Error('parameter is invalid');
+					}
+					//return o;				
+				},
 				/** 
 				*	@method 检查对象属性*/
 				checkObj: function(propName/*string*/, obj) {
@@ -300,16 +316,11 @@
 					return o;
 				},
 				/**	@method 添加标签内容 指定类型若为url则进行加载*/
-				add: function(ele/*string | jq | htmlobj*/,type){
-					if(ele){
-						if(!type){
-							var _ele = ele.jq || ele;
-							o.jq.append(_ele);
-						}else if(type==='url' && typeof(ele)==='string'){
-							o.load(ele);
+				add: function(){
+					if(arguments.length>0){
+						for(var i=0,l=arguments.length;i<l;i++){
+							o._add(arguments[i]);
 						}
-					}else{
-						throw new Error('parameter is invalid');
 					}
 					return o;
 				},
