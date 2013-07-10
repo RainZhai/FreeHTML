@@ -8,7 +8,7 @@
 
 	Mushroom.prototype.init = function(){  
 	//松鼠的头部，是一个MovieClip类型。
-	this.head = new Q.MovieClip({id:"head", image:Q.getDOM("headIdle"), useFrames:true, interval:2, x:5, y:0});
+	this.head = new Q.MovieClip({id:"head", image:Q.getDOM("headIdle"), useFrames:true, interval:1, x:5, y:0});
 	this.head.addFrame([
 	{rect:[0,0,66,56]},
 	{rect:[69,0,66,56]},
@@ -17,7 +17,7 @@
 	]);
 
 	//松鼠的身体，也是一个MovieClip类型。
-	this.body = new Q.MovieClip({id:"body", image:Q.getDOM('bodyWalk'), useFrames:true, interval:2, x:0, y:25});
+	this.body = new Q.MovieClip({id:"body", image:Q.getDOM('bodyWalk'), useFrames:true, interval:1, x:0, y:25});
 	this.body.addFrame([
 	{rect:[0,0,108,66]},
 	{rect:[109,0,108,66]},
@@ -84,13 +84,13 @@
 
 	//注册舞台事件，使舞台上的元素能接收交互事件
 	em = new Q.EventManager();
-	var events = Q.supportTouch ? ["touchend"] : ["mouseup"];
+	var events = Q.supportTouch ? ["touchend"] : ["mouseup","mousemove"];
 	em.registerStage(stage, events, true, true);
   //蘑菇实例   
 	var mushroom = new Mushroom({id:"squirrel", x:200, y:160, autoSize:true});
 	stage.addChild(mushroom);
 
 	//为松鼠添加touchend或mouseup事件侦听，控制其跳跃。
-	mushroom.addEventListener(events[0], mushroom.move);
+	mushroom.addEventListener(events[1], mushroom.move);
  
 	//doc.body.add(doc.container); 
