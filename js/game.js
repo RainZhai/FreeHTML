@@ -34,32 +34,30 @@
 
 	//由头部和身体组成了一只松鼠。
 	this.addChild(this.body, this.head);
-			//初始化数据。
+			//初始化数据
 			this.eventChildren = false;
-			this.moving = false;
-			this.speedX = this.currentSpeedX = 8;    
-			this.originX = this.x;
+			this.jumping = false;
+			this.speedY = this.currentSpeedY = 25;    
+			this.originY = this.y;
 	};
 
-	Mushroom.prototype.move = function(e){
-		//this.x = e.pageX; 
-		if(!this.moving) 
+	Mushroom.prototype.move = function(e){ 
+		if(!this.jumping) 
 		{
-			this.moving = true;
-			this.currentSpeedX = this.speedX;
+			this.jumping = true;
+			this.currentSpeedY = this.speedY;
 		}
 	}
 	//松鼠的更新函数，此方法会不断的被quark系统调用而产生跳跃动画。
-	Mushroom.prototype.update = function()
-	{
-			if(this.moving){
-					this.currentSpeedX -= 0.3;
-					this.x -= this.currentSpeedX;
-					if(this.originX <= this.x){
-							this.x = this.originX;
-							this.moving = false;
-					}
-			}
+	Mushroom.prototype.update = function(){
+    if(this.jumping){
+        this.currentSpeedY -= 2;
+        this.y -= this.currentSpeedY;
+        if(this.originY <= this.y){
+            this.y = this.originY;
+            this.jumping = false;
+        }
+    }
 	};
 	//=================================================
 	var container,params, timer, stage, context, em, squirrel;
@@ -86,11 +84,12 @@
 	em = new Q.EventManager();
 	var events = Q.supportTouch ? ["touchend"] : ["mouseup","mousemove"];
 	em.registerStage(stage, events, true, true);
+	em.register(stage, events,function(e){ mushroom.x = e.pageX- mushroom.width/2;}, true, true);
   //蘑菇实例   
 	var mushroom = new Mushroom({id:"squirrel", x:200, y:160, autoSize:true});
 	stage.addChild(mushroom);
 
 	//为松鼠添加touchend或mouseup事件侦听，控制其跳跃。
-	mushroom.addEventListener(events[1], mushroom.move);
+	mushroom.addEventListener(events[0], mushroom.move);
  
 	//doc.body.add(doc.container); 
