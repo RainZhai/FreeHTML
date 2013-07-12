@@ -52,7 +52,7 @@
 	Mushroom.prototype.update = function(){
     if(this.jumping){
         this.currentSpeedY -= 2;
-        this.y -= this.currentSpeedY;
+        this.y -= this.currentSpeedY; 
         if(this.originY <= this.y){
             this.y = this.originY;
             this.jumping = false;
@@ -63,6 +63,7 @@
 	var container,params, timer, stage, context, em, squirrel;
 	container = Q.getDOM("container");
 	params = Q.getUrlParams();
+	console.info(params.canvas);
 	if(params.canvas){
 		var canvas = Quark.createDOM("canvas", {width:480, height:320, style:{position:"absolute"}});
 		container.appendChild(canvas);
