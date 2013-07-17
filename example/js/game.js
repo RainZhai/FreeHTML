@@ -1,4 +1,3 @@
-//==================================================
 (function(){
 var game = {
 	res : [ {
@@ -43,10 +42,6 @@ game.createBalls = function() {
 			id : "ball" + i,
 			type : game.Ball.getRandomType()
 		});
-		ball.drawCircle(0, 0, 50).lineStyle(1, "#000").beginFill("red")
-				.endFill().cache();
-		console.log("ball.x----"+ball.x);
-		console.log("ball.y----"+ball.y);
 		this.balls.push(ball);
 	}
 }
@@ -79,14 +74,15 @@ game.updateBalls = function() {
 		}
 	}
 }
-// =================================================
+
 game.init = function() {
 	var container, params, timer, context, em;
 	var _this = this;
 	container = Q.getDOM("container");
 	container.style.background = "url(images/game_bg.jpg) no-repeat center center";
+	_this.width = container.clientWidth;
+	_this.height = container.clientHeight;
 	params = Q.getUrlParams();
-	console.info(params.canvas);
 	if (params.canvas) {
 		var canvas = Quark.createDOM("canvas", {
 			width : 800,
@@ -227,7 +223,8 @@ game.updateBalls = function() {
 			ball.currentSpeedY += 1;
 		else if (ball.currentSpeedY < 0)
 			ball.currentSpeedY += 2;
-		ball.y += ball.currentSpeedY;
+		//ball.y += ball.currentSpeedY;
+		ball.y++;
 		ball.x += ball.currentSpeedX; 
 		console.log("ball.y--"+ball.y);
 		if (ball.bouncing) {
@@ -241,7 +238,7 @@ game.updateBalls = function() {
 			ball.fading = true;
 		}
 		if (ball.y > me.height) {
-			ball.reset(ns.Ball.getRandomType());
+			ball.reset(game.Ball.getRandomType());
 		}
 	}
 }

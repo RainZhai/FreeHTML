@@ -1,4 +1,3 @@
- // ==================================================
 (function(){
 var Ball = game.Ball = function(props) {
 	props = props || {};
@@ -7,6 +6,8 @@ var Ball = game.Ball = function(props) {
 	this.id = props.id || Q.UIDUtil.createUID("Ball");
 
 	this.reset(this.type);
+	console.log(this.type.color)
+	this.draw(this.type.color,this.type.radius);
 };
 Q.inherit(Ball, Q.Graphics);
 
@@ -39,7 +40,9 @@ Ball.prototype.setRandomPosition = function() {
 Ball.prototype.setType = function(type) {
 	this.type = type;
 }
-
+Ball.prototype.draw = function(color,radius) {
+	this.drawCircle(0, 0, radius).beginFill(color).endFill().cache();
+}
 Ball.getRandomType = function() {
 	var list = this.TypeList;
 	var r = Math.floor(Math.random() * list.length);
@@ -66,7 +69,9 @@ Ball.init = function() {
 		width : 188,
 		height : 184,
 		score : 0,
-		speedY : 0
+		speedY : 0,
+		color: '#75C4FE',
+		radius: 20
 	};
 
 	this.Type.medium = {
@@ -75,7 +80,9 @@ Ball.init = function() {
 		width : 188,
 		height : 184,
 		score : 1,
-		speedY : 0.5
+		speedY : 0.5,
+		color: '#CAE03C',
+		radius: 30
 	};
 
 	this.Type.big = {
@@ -84,7 +91,9 @@ Ball.init = function() {
 		width : 188,
 		height : 184,
 		score : 2,
-		speedY : 1
+		speedY : 1,
+		color: 'red',
+		radius: 15
 	};
 
 	this.TypeList = [ this.Type.small, this.Type.medium, this.Type.big ];
