@@ -6,7 +6,6 @@ var Ball = game.Ball = function(props) {
 	this.id = props.id || Q.UIDUtil.createUID("Ball");
 
 	this.reset(this.type);
-	console.log(this.type.color)
 	this.draw(this.type.color,this.type.radius);
 };
 Q.inherit(Ball, Q.Graphics);
@@ -20,11 +19,13 @@ Ball.prototype.update = function(timeInfo) {
 
 Ball.prototype.reset = function(type) {
 	this.setType(type);
+	this.width = 120;
+	this.height = 120;
 	this.currentScore = this.type.score;
 	this.alpha = 1;
 	this.fading = false;
 	this.bouncing = false;
-	this.currentSpeedY = this.speedY;
+	this.currentSpeedY = this.type.speedY;
 	this.currentSpeedX = 0;
 	this.delay = Math.floor(Math.random() * 50);
 
@@ -34,7 +35,7 @@ Ball.prototype.reset = function(type) {
 Ball.prototype.setRandomPosition = function() {
 	var minX = 100, maxX = game.width - 100, minY = -100, maxY = 0;
 	this.x = Math.floor(Math.random() * (maxX - minX) + minX);
-	this.y = Math.floor(50);
+	this.y = -100;
 }
 
 Ball.prototype.setType = function(type) {
@@ -53,7 +54,7 @@ Ball.prototype.getCollide = function() {
 	this.currentScore += this.type.scoreStep;
 	if (this.currentScore > this.type.maxScore)
 		this.currentScore = this.type.maxScore;
-	this.currentSpeedY = -10;
+	this.currentSpeedY = Math.floor(-10);
 	this.bouncing = true;
 }
 
@@ -65,11 +66,9 @@ Ball.init = function() {
 	this.Type = {};
 	this.Type.small = {
 		regX : 94,
-		regY : 92,
-		width : 188,
-		height : 184,
+		regY : 92, 
 		score : 0,
-		speedY : 0,
+		speedY : 0.2,
 		color: '#75C4FE',
 		radius: 20
 	};
@@ -77,8 +76,6 @@ Ball.init = function() {
 	this.Type.medium = {
 		regX : 94,
 		regY : 92,
-		width : 188,
-		height : 184,
 		score : 1,
 		speedY : 0.5,
 		color: '#CAE03C',
@@ -88,8 +85,6 @@ Ball.init = function() {
 	this.Type.big = {
 		regX : 94,
 		regY : 92,
-		width : 188,
-		height : 184,
 		score : 2,
 		speedY : 1,
 		color: 'red',

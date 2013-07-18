@@ -45,36 +45,6 @@ game.createBalls = function() {
 		this.balls.push(ball);
 	}
 }
-game.updateBalls = function() {
-	var me = this, balls = this.balls, minBottom = 80;
-	for ( var i = 0; i < balls.length; i++) {
-		var ball = me.balls[i];
-		if (ball.delay > 0) {
-			ball.delay -= 1;
-			continue;
-		}
-		if (ball.currentSpeedY > 0)
-			ball.currentSpeedY += 0.05;
-		else if (ball.currentSpeedY < 0)
-			ball.currentSpeedY += 0.15;
-		ball.y += ball.currentSpeedY;
-		ball.x += ball.currentSpeedX;
-		if (ball.bouncing) {
-			if (ball.currentSpeedY >= 0) {
-				ball.stopBounce();
-				return;
-			}
-		}
-		if (ball.y > me.height - minBottom && ball.alpha > 0) {
-			ball.alpha -= 0.1;
-			ball.fading = true;
-		}
-		if (ball.y > me.height) {
-			ball.reset(game.Ball.getRandomType());
-		}
-	}
-}
-
 game.init = function() {
 	var container, params, timer, context, em;
 	var _this = this;
@@ -152,7 +122,6 @@ game.init = function() {
 	for ( var i = 0; i < _this.balls.length; i++) {
 	var ball = _this.balls[i];
 	ball.reset(game.Ball.getRandomType());
-	console.log(ball);
 	_this.stage.addChild(ball);
 	}
 	// 初始化timer并启动
@@ -208,6 +177,10 @@ game.updateSquirrel = function() {
 		if (this.mainRole.oldY <= this.mainRole.y) {
 			this.mainRole.stopJump();
 			this.collidedBall = null;
+		}else{
+			if(this.collidedBall == null){
+				this.checkCollision()
+			}
 		}
 	}
 }
@@ -220,13 +193,11 @@ game.updateBalls = function() {
 			continue;
 		}
 		if (ball.currentSpeedY > 0)
-			ball.currentSpeedY += 1;
+			ball.currentSpeedY += 0.5;
 		else if (ball.currentSpeedY < 0)
-			ball.currentSpeedY += 2;
-		//ball.y += ball.currentSpeedY;
-		ball.y++;
-		ball.x += ball.currentSpeedX; 
-		console.log("ball.y--"+ball.y);
+			ball.currentSpeedY += 0.7;
+		ball.y += ball.currentSpeedY;
+		ball.x += ball.currentSpeedX;  
 		if (ball.bouncing) {
 			if (ball.currentSpeedY >= 0) {
 				ball.stopBounce();
@@ -242,6 +213,35 @@ game.updateBalls = function() {
 		}
 	}
 }
+var sortBallFunc = function(a, b){return a.y < b.y;}
+
+//碰撞检测
+game.checkCollision = function() {
+	var me = this, balls = this.balls, mainRole = this.mainRole;
+	// 根据球的Y轴排序
+	balls.sort(sortBallFunc);
+
+	for ( var i = 0; i < balls.length; i++) {
+		var ball = balls[i];
+		if (ball.fading || ball.bouncing)
+			continue;
+		var gapH = ball.getCurrentWidth() * 0.5, gapV = ball
+				.getCurrentHeight() * 0.5;
+		var dx = ball.x - mainRole.x, dy = mainRole.y - ball.y;
+		
+		if (dx <= mainRole.getCurrentWidth() + gapH && dx >= 0
+				&& dy <= gapV && dy >= -gapV - 100) {
+			ball.getCollide();
+			var ddx = dx - gapH;
+			ball.currentSpeedX = Math.abs(ddx) > 20 ? ddx * 0.1 : 0;
+			this.collidedBall = ball;
+			this.addScore(ball, ball.currentScore);
+			return true;
+		}
+	}
+	return false;
+}
+
 })();
 window.onload=function(){
 game.init();
