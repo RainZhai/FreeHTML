@@ -1,14 +1,17 @@
 (function(){
+	if(!window.console){window.console = function(){};window.console.info = window.console.debug = window.console.warn = window.console.log = window.console.error = function(str){alert(str);}}
+
+	window.log = function(){
+		if(arguments.length>0){
+			for(var i=0,l=arguments.length;i<l; i++){ console.log(arguments[i]);}
+		}
+	}
 var game = {
 	res : [ {
-		id : "splash",
-		size : 372,
-		src : "images/splash.png"
-	}, {
-		id : "ray",
-		size : 69,
-		src : "images/ray.png"
-	} ],
+		id : "bg",
+		size : 1020,
+		src : "images/game_bg.jpg"
+	}],
 
 	container : null,
 	width : 0,
@@ -46,12 +49,12 @@ game.createBalls = function() {
 	}
 }
 game.init = function() {
-	var container, params, timer, context, em;
+	var params, timer, context, em;
 	var _this = this;
-	container = Q.getDOM("container");
-	container.style.background = "url(images/game_bg.jpg) no-repeat center center";
-	_this.width = container.clientWidth;
-	_this.height = container.clientHeight;
+	this.container = Q.getDOM("container");
+	this.container.style.background = "url(images/game_bg.jpg) no-repeat center center";
+	_this.width = this.container.clientWidth;
+	_this.height = this.container.clientHeight;
 	params = Q.getUrlParams();
 	if (params.canvas) {
 		var canvas = Quark.createDOM("canvas", {
@@ -62,13 +65,13 @@ game.init = function() {
 				background : "url(images/game_bg.jpg) no-repeat center center"
 			}
 		});
-		container.appendChild(canvas);
+		this.container.appendChild(canvas);
 		context = new Quark.CanvasContext({
 			canvas : canvas
 		});
 	} else {
 		context = new Q.DOMContext({
-			canvas : container
+			canvas : this.container
 		});
 	}
 
@@ -185,7 +188,7 @@ game.updateSquirrel = function() {
 	}
 }
 game.updateBalls = function() {
-	var me = this, balls = this.balls, minBottom = 80;
+	var me = this, balls = this.balls, minBottom = 50;
 	for ( var i = 0; i < balls.length; i++) {
 		var ball = me.balls[i];
 		if (ball.delay > 0) {
@@ -193,9 +196,9 @@ game.updateBalls = function() {
 			continue;
 		}
 		if (ball.currentSpeedY > 0)
-			ball.currentSpeedY += 0.5;
+			ball.currentSpeedY += 0.2;
 		else if (ball.currentSpeedY < 0)
-			ball.currentSpeedY += 0.7;
+			ball.currentSpeedY += 0.4;
 		ball.y += ball.currentSpeedY;
 		ball.x += ball.currentSpeedX;  
 		if (ball.bouncing) {
@@ -213,13 +216,13 @@ game.updateBalls = function() {
 		}
 	}
 }
-var sortBallFunc = function(a, b){return a.y < b.y;}
+//var sortBallFunc = function(a, b){return a.y < b.y;}
 
 //碰撞检测
 game.checkCollision = function() {
 	var me = this, balls = this.balls, mainRole = this.mainRole;
 	// 根据球的Y轴排序
-	balls.sort(sortBallFunc);
+	//balls.sort(sortBallFunc);
 
 	for ( var i = 0; i < balls.length; i++) {
 		var ball = balls[i];
@@ -228,14 +231,14 @@ game.checkCollision = function() {
 		var gapH = ball.getCurrentWidth() * 0.5, gapV = ball
 				.getCurrentHeight() * 0.5;
 		var dx = ball.x - mainRole.x, dy = mainRole.y - ball.y;
-		
+		log(gapH,gapV,dx,dy);
 		if (dx <= mainRole.getCurrentWidth() + gapH && dx >= 0
 				&& dy <= gapV && dy >= -gapV - 100) {
 			ball.getCollide();
 			var ddx = dx - gapH;
 			ball.currentSpeedX = Math.abs(ddx) > 20 ? ddx * 0.1 : 0;
 			this.collidedBall = ball;
-			this.addScore(ball, ball.currentScore);
+			//this.addScore(ball, ball.currentScore);
 			return true;
 		}
 	}
