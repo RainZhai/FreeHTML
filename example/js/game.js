@@ -135,8 +135,6 @@
 			update : function() {
 				frames++;
 				if (_this.state == STATE.MENU) {
-					if (_this.ray)
-						_this.ray.rotation += 0.1;
 				} else if (_this.state == STATE.PLAY) {
 					_this.updateSquirrel();
 					_this.updateBalls();
@@ -145,8 +143,9 @@
 		});
 		
 		// 初始化timer并启动
-		_this.timer = new Q.Timer(1000/_this.fps );
+		_this.timer = new Q.Timer(1000/_this.fps);
 		_this.timer.addListener(_this.stage);
+		_this.timer.addListener(Q.Tween);
 		_this.timer.start();
 		//预加载背景音乐
 		var audio = new Quark.Audio("audio/bg.mp3", true, true, true);
@@ -174,6 +173,9 @@
 		em = new Q.EventManager();
 		var events = Q.supportTouch ? ["touchstart", "touchmove", "touchend"] : ["mousedown", "mousemove", "mouseup"];
 		em.registerStage(_this.stage, events, function(e) {
+			// 启动重力感应
+			if(Q.supportOrientation)
+				game.acceleration = e;
 			var ne = (e.touches && e.touches.length > 0) ? e.touches[0]: (e.changedTouches && e.changedTouches.length > 0) ? e.changedTouches[0] : e;
 			// 确保touchend事件的类型正确
 			if (Q.supportTouch)
@@ -240,19 +242,13 @@
 	}
 	// 显示开始菜单
 	game.showUI = function() {
-		if (!this.ui) {
+		if (this.playBtn==null) {
 			// 开始按钮
-			var playBtn = new Q.Button({id : "playBtn",image : this.getImage("icons")});
-			playBtn.setUpState({rect : [ 0, 0, 100, 100 ]});
-			playBtn.setOverState({rect : [ 0, 0, 100, 100 ]});
-			playBtn.regX = playBtn.width >> 1;
-			playBtn.regY = playBtn.height >> 1;
-			playBtn.x = this.width >> 1;
-			playBtn.y = (this.height >> 1) + 30;
+			var playBtn = new Q.Button({id : "playBtn",image : this.getImage("icons"), x:350, y:250, width:100, height:100,});
+			playBtn.setUpState({rect : [100, 0, 100, 100 ]});
+			playBtn.setOverState({rect : [0, 0, 100, 100 ]});
 			this.playBtn = playBtn;
-			playBtn.onEvent = function(e) {
-				Q.Button.prototype.onEvent.call(this, e);
-				if (e.type == "mouseup" || e.type == "touchend") {
+			playBtn.addEventListener("mouseup",function(){
 					game.stage.removeAllChildren();
 					game.context.canvas.style.cursor = "";
 					if (game.state == STATE.MENU) {
@@ -265,11 +261,23 @@
 						game.time.current = game.time.total;
 						game.timer.paused = false;
 						setTimeout(Q.delegate(game.showMain, game), 100);
-					}
-				} else if (e.type == "mouseout") {
+					}			
+			});
+/*			playBtn.addEventListener("touchend",function(){
+					game.stage.removeAllChildren();
 					game.context.canvas.style.cursor = "";
-				}
-			}
+					if (game.state == STATE.MENU) {
+						trace("game start");
+						setTimeout(Q.delegate(game.showMain, game), 100);
+					} else if (game.state == STATE.OVER) {
+						trace("game restart"); 
+						game.stage.removeAllChildren();
+						game.score = 0;
+						game.time.current = game.time.total;
+						game.timer.paused = false;
+						setTimeout(Q.delegate(game.showMain, game), 100);
+					}			
+			}); */
 
 			// 帮助提示
 			var tip = Q.createDOM("div", {
@@ -281,7 +289,7 @@
 					top : (this.height - 60) + "px",
 					textAlign : "center",
 					color : "#000",
-					font : Q.isMobile ? 'bold 24px 黑体' : 'bold 24px 宋体',
+					font : Q.isMobile ? 'bold 18px 黑体' : 'bold 18px 宋体',
 					textShadow : Q.isAndroid ? "0 2px 2px #111" : "0 2px 2px #ccc"
 
 				}
@@ -293,21 +301,16 @@
 		this.state = STATE.MENU;
 		this.stage.addChild(this.playBtn);
 		this.container.appendChild(this.tip);
-		this.ui = true;
+		//this.ui = true;
 	}
 	// 游戏主场景
 	game.showMain = function() {
 		var _this = this;
 		// 设置当前状态
-		_this.state = STATE.MAIN;
+		_this.state = STATE.PLAY;
 
 		if (_this.tip.parentNode)
 			_this.tip.parentNode.removeChild(_this.tip);
-
-		// 启动重力感应
-		Q.Orientation.register(function(data) {
-			game.acceleration = data;
-		});
 
 		if (_this.mainRole == null) {
 			// 蘑菇实例
@@ -337,40 +340,68 @@
 			pauseBtn.setOverState({
 				rect : [ 0, 0, 100, 100 ]
 			});
-			pauseBtn.x = -2;
-			pauseBtn.y = -2;
+			pauseBtn.x = 0;
+			pauseBtn.y = 0;
 			_this.pauseBtn = pauseBtn;
-			_this.pauseBtn.onEvent = function(e) {
+			
+			_this.pauseBtn.addEventListener("mouseup",function(){
 				if (game.state == STATE.OVER)
 					return;
-				if (e.type == "mouseup" || e.type == "touchend") {
+				else
 					var paused = game.timer.paused;
 					game.timer.paused = !paused;
 					pauseBtn.gotoAndStop(paused ? 0 : 1);
 					game.stage.step();
-				} else if (e.type == "mouseout") {
-					game.context.canvas.style.cursor = "";
-				}
-			}
+			})
+			
+/*			_this.pauseBtn.addEventListener("touchend",function(){
+				if (game.state == STATE.OVER)
+					return;
+				else
+					var paused = game.timer.paused;
+					game.timer.paused = !paused;
+					pauseBtn.gotoAndStop(paused ? 0 : 1);
+					game.stage.step();
+			})*/
 		}
 
 		// 添加所有对象到舞台
 		for ( var i = 0; i < this.balls.length; i++) {
 			var ball = this.balls[i];
-			ball.reset(ns.Ball.getRandomType());
+			ball.reset(game.Ball.getRandomType());
 			_this.stage.addChild(ball);
 		}
-		_this.stage.addChild(this.dolphin, this.waveFront, this.pauseBtn);
+		_this.stage.addChild(_this.mainRole, _this.pauseBtn);
 
 		// 显示倒计时
 		_this.showTimer();
 		//显示得分
 		_this.updateScore();
 	}
-	
+
+	// 更新松鼠的移动
 	game.updateSquirrel = function() {
-		// 更新松鼠的移动
-		if (this.mainRole.dirX != 0) {
+		var acc = this.acceleration, dw = this.mainRole.getCurrentWidth(), dh = this.mainRole.getCurrentHeight();
+		if (acc != null) {
+			// 重力感应移动
+			var ax = acc.accelerationX, ay = acc.accelerationY, or = window.orientation;
+			var av = (or % 180) ? ay : ax;
+			var dv = (or % 180) ? (ax < 0 ? 1 : -1) : (ay < 0 ? -1 : 1);
+
+			this.mainRole.currentSpeedX = this.mainRole.jumping ? 0.5 * Math.abs(av) : this.mainRole.currentSpeedX + 0.08
+					* Math.abs(av);
+			if (av * dv > 0.5) {
+				this.mainRole.x -= this.mainRole.currentSpeedX * 1;
+				if (this.mainRole.x < 0)
+					this.mainRole.x = 0;
+			} else if (av * dv < -0.5) {
+				this.mainRole.x += this.mainRole.currentSpeedX * 1;
+				if (this.mainRole.x > this.width - dw)
+					this.mainRole.x = this.width - dw;
+			} else {
+				this.mainRole.currentSpeedX = this.mainRole.speedX;
+			}
+		} else if (this.mainRole.dirX != 0) {
 			// 普通移动
 			this.mainRole.x += this.mainRole.currentSpeedX * this.mainRole.dirX;
 			if (this.mainRole.x < 0)
@@ -437,15 +468,12 @@
 			// 球的半高半宽
 			var hW = ball.getCurrentWidth() * 0.5, hH = ball.getCurrentHeight() * 0.5;
 			var dx = ball.x - mainRole.x, dy = mainRole.y - ball.y;
-			log(dy,hH);
 			if (dx <= mainRole.getCurrentWidth() + hW && dx >= 0 && dy <= 2*hH && dy >= -hH - 100) {
 				ball.getCollide();
 				var ddx = dx - hW;
-				// log(ball.currentSpeedX);
 				ball.currentSpeedX = Math.abs(ddx) > 20 ? ddx * 0.1 : 0;
-				log(ball.currentSpeedX);
-				this.collidedBall = ball;
-				this.addScore(ball, ball.currentScore);
+				this.collidedBall = ball; 
+				this.addScore(ball, ball.type.score);
 				return true;
 			}
 		}
@@ -459,28 +487,22 @@
 				width : 100,
 				height : 65
 			});
-			var plus = new Q.Text({id: "plus",font:"14px arial", text:"+",width:50,height:50,lineSpacing:0, textAlign:"left"});
+			var plus = new Q.Text({id: "plus",color:'red',font:"bold 30px arial", text:"+",width:50,height:30,lineSpacing:0, textAlign:"left"});
 			container.addChild(plus);
-			var num = new Q.Text({id: "num",font:"14px arial",width:50,height:50,lineSpacing:0, textAlign:"left"});
+			var num = new Q.Text({id: "num",color:'red',font:"bold 30px arial",width:50,height:30,lineSpacing:0, textAlign:"left"});
 			num.x = plus.x + plus.width - 15;
 			container.addChild(num);
 			this.addNum = container;
 		}
 		this.stage.addChild(this.addNum);
-		this.addNum.getChildAt(1).text(score);
+		this.addNum.getChildAt(1).text = score;
 		this.addNum.x = ball.x - 50;
-		this.addNum.y = ball.y - 100;
+		this.addNum.y = ball.y - 50;
 		this.addNum.alpha = 1;
 
+		Q.Tween.to(this.addNum, {y : this.addNum.y - 100,alpha : 0}, {time : 1000});
 		this.score += score;
 		this.updateScore();
-
-		Q.Tween.to(this.addNum, {
-			y : this.addNum.y - 100,
-			alpha : 0
-		}, {
-			time : 1000
-		});
 	}
 
 	// 更新总得分
@@ -492,16 +514,16 @@
 				height : 65
 			});
 			var num0 = new Q.Text({
-				id : "num0"
+				id : "num0",color:'red',font:"bold 30px arial", text:"+",width:50,height:30,lineSpacing:0, textAlign:"left"
 			});
 			var num1 = new Q.Text({
-				id : "num1"
+				id : "num1",color:'red',font:"bold 30px arial", text:"+",width:50,height:30,lineSpacing:0, textAlign:"left"
 			});
 			var num2 = new Q.Text({
-				id : "num2"
+				id : "num2",color:'red',font:"bold 30px arial", text:"+",width:50,height:30,lineSpacing:0, textAlign:"left"
 			});
 			var num3 = new Q.Text({
-				id : "num3"
+				id : "num3",color:'red',font:"bold 30px arial", text:"+",width:50,height:30,lineSpacing:0, textAlign:"left"
 			});
 			num1.x = 50;
 			num2.x = 100;
@@ -519,16 +541,16 @@
 		while (str.length < 4)
 			str = "0" + str;
 		for ( var i = 0; i < str.length; i++) {
-			this.scoreNum.getChildAt(i).setValue(Number(str[i]));
+			this.scoreNum.getChildAt(i).text = str[i];
 		}
 	}
 
 	// 显示倒计时
 	game.showTimer = function() {
-		if (this.countdown == null) {
+		if (this.timebox == null) {
 			// 初始化倒计时
-			var countdown = new Q.DisplayObjectContainer({
-				id : 'countdown',
+			var timebox = new Q.DisplayObjectContainer({
+				id : 'timebox',
 				width : 250,
 				height : 65
 			});
@@ -551,14 +573,14 @@
 			sep.x = 80;
 			sec1.x = 125;
 			sec2.x = 170;
-			sep.setValue(10);
-			countdown.addChild(num1, num2, sep, sec1, sec2);
-			countdown.scaleX = countdown.scaleY = 0.8;
-			countdown.x = 90;
-			countdown.y = 15;
-			this.countdown = countdown;
+			sep.text = 10;
+			timebox.addChild(num1, num2, sep, sec1, sec2);
+			timebox.scaleX = timebox.scaleY = 0.8;
+			timebox.x = 90;
+			timebox.y = 15;
+			this.timebox = timebox;
 		}
-		this.stage.addChild(this.countdown);
+		this.stage.addChild(this.timebox);
 		this.time.current = this.time.total;
 		this.updateTimer();
 	}
@@ -567,10 +589,10 @@
 	game.updateTimer = function() {
 		var me = this, time = this.time;
 		var min = Math.floor(time.current / 60), sec = time.current % 60;
-		me.countdown.getChildAt(0).setValue(min >= 10 ? Math.floor(min / 10) : 0);
-		me.countdown.getChildAt(1).setValue(min >= 10 ? (min % 10) : min);
-		me.countdown.getChildAt(3).setValue(sec >= 10 ? Math.floor(sec / 10) : 0);
-		me.countdown.getChildAt(4).setValue(sec >= 10 ? (sec % 10) : sec);
+		me.timebox.getChildAt(0).text = (min >= 10 ? Math.floor(min / 10) : 0);
+		me.timebox.getChildAt(1).text = (min >= 10 ? (min % 10) : min);
+		me.timebox.getChildAt(3).text = (sec >= 10 ? Math.floor(sec / 10) : 0);
+		me.timebox.getChildAt(4).text = (sec >= 10 ? (sec % 10) : sec);
 		time.current++;
 	}
 
