@@ -133,7 +133,7 @@
 		// 初始化舞台
 		_this.stage = new Q.Stage({context : _this.context, width : _this.width,height : _this.height,
 			update : function() {
-				frames++;
+				_this.frames++;
 				if (_this.state == STATE.MENU) {
 				} else if (_this.state == STATE.PLAY) {
 					_this.updateSquirrel();
@@ -244,9 +244,9 @@
 	game.showUI = function() {
 		if (this.playBtn==null) {
 			// 开始按钮
-			var playBtn = new Q.Button({id : "playBtn",image : this.getImage("icons"), x:350, y:250, width:100, height:100,});
-			playBtn.setUpState({rect : [100, 0, 100, 100 ]});
-			playBtn.setOverState({rect : [0, 0, 100, 100 ]});
+			var playBtn = new Q.Button({id : "playBtn",image : this.getImage("icons"), x:350, y:250, width:100, height:100});
+			playBtn.setUpState({rect : [110, 0, 90, 90 ]});
+			playBtn.setOverState({rect : [110, 0, 90, 90 ]});
 			this.playBtn = playBtn;
 			playBtn.addEventListener("mouseup",function(){
 					game.stage.removeAllChildren();
@@ -263,7 +263,7 @@
 						setTimeout(Q.delegate(game.showMain, game), 100);
 					}			
 			});
-/*			playBtn.addEventListener("touchend",function(){
+			playBtn.addEventListener("touchend",function(){
 					game.stage.removeAllChildren();
 					game.context.canvas.style.cursor = "";
 					if (game.state == STATE.MENU) {
@@ -277,7 +277,7 @@
 						game.timer.paused = false;
 						setTimeout(Q.delegate(game.showMain, game), 100);
 					}			
-			}); */
+			}); 
 
 			// 帮助提示
 			var tip = Q.createDOM("div", {
@@ -330,18 +330,13 @@
 				_this.stage.addChild(ball);
 			} 
 			// 暂停、继续按钮
-			var pauseBtn = new Q.Button({
-				id : "pauseBtn",
-				image : _this.getImage("icons")
-			});
+			var pauseBtn = new Q.Button({id : "pauseBtn",image : _this.getImage("icons"), x:20, y:20, width:40, height:40});
 			pauseBtn.setUpState({
-				rect : [ 0, 0, 100, 100 ]
+				rect : [ 0, 187, 40, 40 ]
 			});
 			pauseBtn.setOverState({
-				rect : [ 0, 0, 100, 100 ]
+				rect : [ 0, 187, 40, 40 ]
 			});
-			pauseBtn.x = 0;
-			pauseBtn.y = 0;
 			_this.pauseBtn = pauseBtn;
 			
 			_this.pauseBtn.addEventListener("mouseup",function(){
@@ -354,7 +349,7 @@
 					game.stage.step();
 			})
 			
-/*			_this.pauseBtn.addEventListener("touchend",function(){
+			_this.pauseBtn.addEventListener("touchend",function(){
 				if (game.state == STATE.OVER)
 					return;
 				else
@@ -362,7 +357,7 @@
 					game.timer.paused = !paused;
 					pauseBtn.gotoAndStop(paused ? 0 : 1);
 					game.stage.step();
-			})*/
+			})
 		}
 
 		// 添加所有对象到舞台
