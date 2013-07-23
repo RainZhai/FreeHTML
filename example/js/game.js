@@ -136,7 +136,7 @@
 				_this.frames++;
 				if (_this.state == STATE.MENU) {
 				} else if (_this.state == STATE.PLAY) {
-					_this.updateSquirrel();
+					_this.updateMainrole();
 					_this.updateBalls();
 				}
 			}
@@ -173,9 +173,6 @@
 		em = new Q.EventManager();
 		var events = Q.supportTouch ? ["touchstart", "touchmove", "touchend"] : ["mousedown", "mousemove", "mouseup"];
 		em.registerStage(_this.stage, events, function(e) {
-			// 启动重力感应
-			if(Q.supportOrientation)
-				game.acceleration = e;
 			var ne = (e.touches && e.touches.length > 0) ? e.touches[0]: (e.changedTouches && e.changedTouches.length > 0) ? e.changedTouches[0] : e;
 			// 确保touchend事件的类型正确
 			if (Q.supportTouch)
@@ -288,13 +285,13 @@
 					height : "50px",
 					top : (this.height - 60) + "px",
 					textAlign : "center",
-					color : "#000",
+					color : "red",
 					font : Q.isMobile ? 'bold 18px 黑体' : 'bold 18px 宋体',
 					textShadow : Q.isAndroid ? "0 2px 2px #111" : "0 2px 2px #ccc"
 
 				}
 			});
-			tip.innerHTML = "操作提示：A或←键向左，D或→键向右，S键或↑跳跃。<br>手持设备支持重力感应操作、点击跳跃。";
+			tip.innerHTML = "操作提示：A或←键向左，D或→键向右，S键或↑跳跃。<br>移动设备重力感应进行移动、点击跳跃。";
 			this.tip = tip;
 		}
 
@@ -308,7 +305,7 @@
 		var _this = this;
 		// 设置当前状态
 		_this.state = STATE.PLAY;
-
+		Q.Orientation.register(function(data){game.acceleration = data;});
 		if (_this.tip.parentNode)
 			_this.tip.parentNode.removeChild(_this.tip);
 
@@ -375,8 +372,9 @@
 	}
 
 	// 更新松鼠的移动
-	game.updateSquirrel = function() {
+	game.updateMainrole = function() {
 		var acc = this.acceleration, dw = this.mainRole.getCurrentWidth(), dh = this.mainRole.getCurrentHeight();
+		log(acc);
 		if (acc != null) {
 			// 重力感应移动
 			var ax = acc.accelerationX, ay = acc.accelerationY, or = window.orientation;
