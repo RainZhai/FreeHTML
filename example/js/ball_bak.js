@@ -6,8 +6,9 @@
 		this.id = props.id || Q.UIDUtil.createUID("Ball");
 
 		this.reset(this.type);
+		this.draw(this.type.color, this.type.radius);
 	};
-	Q.inherit(Ball, Q.Bitmap);
+	Q.inherit(Ball, Q.Graphics);
 
 	Ball.prototype.init = function() {
 	};
@@ -18,7 +19,8 @@
 
 	Ball.prototype.reset = function(type) {
 		this.setType(type);
-		this.rect = this.type.rect;
+		this.width = 60;
+		this.height = 60;
 		this.alpha = 1;
 		this.fading = false;
 		this.bouncing = false;
@@ -40,7 +42,7 @@
 	}
 	Ball.prototype.draw = function(color, radius) {
 		this.drawCircle(0, 0, radius).beginFill(color).endFill().cache();
-	} 
+	}
 	Ball.getRandomType = function() {
 		var list = this.TypeList;
 		var r = Math.floor(Math.random() * list.length);
@@ -55,48 +57,36 @@
 	Ball.prototype.stopBounce = function() {
 		this.bouncing = false;
 	}
+
 	Ball.init = function() {
 		this.Type = {};
-		this.Type.nut = {
-			name: 'nut',
+		this.Type.small = {
 			regX : 94,
 			regY : 92,
-			score : 20,
+			score : 2,
 			speedY : 0.2,
-			image: game.getImage("icons"),
-			rect:[0,223,70,83]
+			color : '#75C4FE',
+			radius : 25
 		};
-		this.Type.nut2 = {
-				name: 'nut',
-				regX : 94,
-				regY : 92,
-				score : 10,
-				speedY : 0.2,
-				scaleX:0.8,
-				scaleY:0.8,
-				image: game.getImage("icons"),
-				rect:[0,223,70,83]
-			};
-		this.Type.bomb = {
-				name: 'bomb',
-				regX : 94,
-				regY : 92,
-				score : 0,
-				speedY : 0.4,
-				image: game.getImage("icons"),
-				rect:[102,217,72,98]
-			};
-		this.Type.chest = {
-				name: 'chest',
-				regX : 94,
-				regY : 92,
-				score : 0,
-				speedY : 0.4,
-				scaleX:0.8,
-				scaleY:0.8,
-				image: game.getImage("icons"),
-				rect:[0,310,110,84]
-			};
-		this.TypeList = [ this.Type.nut,this.Type.nut2,this.Type.bomb,this.Type.chest ];
-	}
+
+		this.Type.medium = {
+			regX : 94,
+			regY : 92,
+			score : 3,
+			speedY : 0.5,
+			color : '#CAE03C',
+			radius : 30
+		};
+
+		this.Type.big = {
+			regX : 94,
+			regY : 92,
+			score : 1,
+			speedY : 1,
+			color : 'red',
+			radius : 20
+		};
+
+		this.TypeList = [ this.Type.small, this.Type.medium, this.Type.big ];
+	};
 })();

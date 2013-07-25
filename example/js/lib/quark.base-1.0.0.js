@@ -4197,8 +4197,8 @@ var Orientation = Quark.Orientation ={
 
 Orientation.register = function(callback){
 	var me = this, handler = function(e){me.onOrientation(e, callback);};
-	window.addEventListener('deviceorientation', handler, false);
-	window.addEventListener('MozOrientation', handler, false);
+	//window.addEventListener('deviceorientation', handler, false);
+	//window.addEventListener('MozOrientation', handler, false);
 	window.addEventListener('devicemotion', handler, false);
 };
 

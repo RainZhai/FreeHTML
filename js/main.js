@@ -42,11 +42,10 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 			]
 		};
 		doc.userlist.add(userlist(data));
-		console.log(doc.main.child);
 		doc.main.add(doc.userlist);
 			//.add('article.html .main','url');
 		var sidebar = t.compile($("#sidebar-template").html());
-		doc.container.add(sidebar({category:"FreeHTML介绍",introduction:"FreeHTML是一个快速创建html页面的插件"})).add(doc.main);
+		doc.container.add(sidebar({category:"FreeHTML介绍",introduction:"FreeHTML是一个快速创建html页面的插件"}),doc.main);
 		var dom = _html.create('p',{'height':'40px','background':'#000'},{'title':'sdfds'});
 		doc.header2.add(doc.header2_child.add(doc.header2_link));
 		doc.body.add(doc.header,doc.header2,doc.container,dom);

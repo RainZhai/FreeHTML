@@ -1,7 +1,6 @@
 (function() {
 	if (!window.console) {
-		window.console = function() {
-		};
+		window.console = function() {};
 		window.console.info = window.console.debug = window.console.warn = window.console.log = window.console.error = function(
 				str) {
 			alert(str);
@@ -61,7 +60,8 @@
 			current : 0
 		},
 		score : 0,
-		scoreNum : null
+		scoreNum : null,
+		life:true
 	};
 	window.game = game;
 	// 创建小球
@@ -342,7 +342,6 @@
 				else
 					var paused = game.timer.paused;
 					game.timer.paused = !paused;
-					pauseBtn.gotoAndStop(paused ? 0 : 1);
 					game.stage.step();
 			})
 			
@@ -352,7 +351,6 @@
 				else
 					var paused = game.timer.paused;
 					game.timer.paused = !paused;
-					pauseBtn.gotoAndStop(paused ? 0 : 1);
 					game.stage.step();
 			})
 		}
@@ -462,12 +460,15 @@
 			var hW = ball.getCurrentWidth() * 0.5, hH = ball.getCurrentHeight() * 0.5;
 			var dx = ball.x - mainRole.x, dy = mainRole.y - ball.y;
 			if (dx <= mainRole.getCurrentWidth() + hW && dx >= 0 && dy <= 2*hH && dy >= -hH - 100) {
-				ball.getCollide();
-				var ddx = dx - hW;
-				ball.currentSpeedX = Math.abs(ddx) > 20 ? ddx * 0.1 : 0;
-				this.collidedBall = ball; 
-				this.addScore(ball, ball.type.score);
-				return true;
+					if(ball.name ==='bomb'){
+						
+					}
+					ball.getCollide();
+					var ddx = dx - hW;
+					ball.currentSpeedX = Math.abs(ddx) > 20 ? ddx * 0.1 : 0;
+					this.collidedBall = ball; 
+					this.addScore(ball, ball.type.score);
+					return true;
 			}
 		}
 		return false;
