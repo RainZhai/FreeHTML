@@ -37,6 +37,10 @@
 			id : "head",
 			size : 11,
 			src : "images/head_idle.png"
+		}, {
+			id : "boom",
+			size : 210,
+			src : "images/boom_bg.jpg"
 		} ],
 
 		container : null,
@@ -61,7 +65,9 @@
 		},
 		score : 0,
 		scoreNum : null,
-		life:true
+		life:true,
+		boombg: null,
+		freegame:null
 	};
 	window.game = game;
 	// 创建小球
@@ -244,6 +250,7 @@
 			var playBtn = new Q.Button({id : "playBtn",image : this.getImage("icons"), x:350, y:250, width:100, height:100});
 			playBtn.setUpState({rect : [110, 0, 90, 90 ]});
 			playBtn.setOverState({rect : [110, 0, 90, 90 ]});
+			//playBtn.setDownState({rect : [110, 97, 90, 90 ]});
 			this.playBtn = playBtn;
 			playBtn.addEventListener("mouseup",function(){
 					game.stage.removeAllChildren();
@@ -327,7 +334,7 @@
 				_this.stage.addChild(ball);
 			} 
 			// 暂停、继续按钮
-			var pauseBtn = new Q.Button({id : "pauseBtn",image : _this.getImage("icons"), x:20, y:20, width:40, height:40});
+			var pauseBtn = new Q.Button({id : "pauseBtn",image : _this.getImage("icons"), x:_this.stage.width - 40, y:20, width:40, height:40});
 			pauseBtn.setUpState({
 				rect : [ 0, 187, 40, 40 ]
 			});
@@ -354,6 +361,8 @@
 					game.stage.step();
 			})
 		}
+		//创建爆炸层
+		_this.boombg = new Q.Bitmap({image:_this.getImage('boom'), width: _this.stage.width,height: _this.stage.height, x:0,y:0,alpha:0,scaleX:0.5, scaleY:0.5});
 
 		// 添加所有对象到舞台
 		for ( var i = 0; i < this.balls.length; i++) {
@@ -361,7 +370,7 @@
 			ball.reset(game.Ball.getRandomType());
 			_this.stage.addChild(ball);
 		}
-		_this.stage.addChild(_this.mainRole, _this.pauseBtn);
+		_this.stage.addChild(_this.boombg, _this.mainRole, _this.pauseBtn);
 
 		// 显示倒计时
 		_this.showTimer();
@@ -372,7 +381,6 @@
 	// 更新松鼠的移动
 	game.updateMainrole = function() {
 		var acc = this.acceleration, dw = this.mainRole.getCurrentWidth(), dh = this.mainRole.getCurrentHeight();
-		log(acc);
 		if (acc != null) {
 			// 重力感应移动
 			var ax = acc.accelerationX, ay = acc.accelerationY, or = window.orientation;
@@ -446,7 +454,7 @@
 	}
 	// 碰撞检测
 	game.checkCollision = function() {
-		var me = this, balls = this.balls, mainRole = this.mainRole;
+		var _this = this, balls = this.balls, mainRole = this.mainRole;
 		// 根据球的Y轴排序
 		balls.sort(function(a, b) {
 			return a.y < b.y;
@@ -461,7 +469,7 @@
 			var dx = ball.x - mainRole.x, dy = mainRole.y - ball.y;
 			if (dx <= mainRole.getCurrentWidth() + hW && dx >= 0 && dy <= 2*hH && dy >= -hH - 100) {
 					if(ball.name ==='bomb'){
-						
+						_this.gameOver();
 					}
 					ball.getCollide();
 					var ddx = dx - hW;
@@ -593,30 +601,16 @@
 	// 游戏结束
 	game.gameOver = function() {
 		trace("game over:", this.score);
-		this.timer.pause();
-		if (this.context.context == null) {
-			if (this.overlay == null) {
-				this.overlay = Q.createDOM("div", {
-					id : "overlay",
-					style : {
-						position : "absolute",
-						width : this.width + "px",
-						height : this.height + "px",
-						background : "#000",
-						opacity : 0.4
-					}
-				});
-			}
-			this.container.lastChild.appendChild(this.overlay);
-		}
-
-		this.state = STATE.OVER;
-		this.playBtn.setState(Q.Button.state.OVER);
-		this.stage.addChild(this.playBtn);
-		this.stage.step();
-
-		// 保存分数
-		this.saveScore(this.score);
+		Q.Tween.to(this.boombg, {alpha:1, scaleX:0.8, scaleY:0.8}, {time:300,	onComplete:function(tween){
+			game.timer.pause();
+			game.state = STATE.OVER;
+			game.playBtn.changeState([110, 97, 90, 90 ]);
+			game.stage.addChild(game.playBtn);
+			game.stage.step();
+			// 保存分数
+			game.saveScore(this.score);
+		}});
+		//this.container.lastChild.appendChild(this.overlay);
 	}
 
 	// 重新开始
