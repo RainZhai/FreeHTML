@@ -247,7 +247,7 @@
 	game.showUI = function() {
 		if (this.playBtn==null) {
 			// 开始按钮
-			var playBtn = new Q.Button({id : "playBtn",image : this.getImage("icons"), x:350, y:250, width:100, height:100});
+			var playBtn = new Q.Button({id : "playBtn",image : this.getImage("icons"), x:350, y:350, width:100, height:100});
 			playBtn.setUpState({rect : [110, 0, 90, 90 ]});
 			playBtn.setOverState({rect : [110, 0, 90, 90 ]});
 			//playBtn.setDownState({rect : [110, 97, 90, 90 ]});
@@ -334,7 +334,7 @@
 				_this.stage.addChild(ball);
 			} 
 			// 暂停、继续按钮
-			var pauseBtn = new Q.Button({id : "pauseBtn",image : _this.getImage("icons"), x:_this.stage.width - 40, y:20, width:40, height:40});
+			var pauseBtn = new Q.Button({id : "pauseBtn",image : _this.getImage("icons"), x:_this.width - 40, y:20, width:40, height:40});
 			pauseBtn.setUpState({
 				rect : [ 0, 187, 40, 40 ]
 			});
@@ -362,7 +362,7 @@
 			})
 		}
 		//创建爆炸层
-		_this.boombg = new Q.Bitmap({image:_this.getImage('boom'), width: _this.stage.width,height: _this.stage.height, x:0,y:0,alpha:0,scaleX:0.5, scaleY:0.5});
+		_this.boombg = new Q.Bitmap({image:_this.getImage('boom'), width: _this.width,height: _this.height, x:0,y:0,alpha:0,scaleX:0.8, scaleY:0.8});
 
 		// 添加所有对象到舞台
 		for ( var i = 0; i < this.balls.length; i++) {
@@ -405,8 +405,8 @@
 			this.mainRole.x += this.mainRole.currentSpeedX * this.mainRole.dirX;
 			if (this.mainRole.x < 0)
 				this.mainRole.x = 0;
-			else if (this.mainRole.x > this.stage.width - this.mainRole.width)
-				this.mainRole.x = this.stage.width - this.mainRole.width;
+			else if (this.mainRole.x > this.width - this.mainRole.width)
+				this.mainRole.x = this.width - this.mainRole.width;
 		}
 
 		if (this.mainRole.dirY != 0) {
@@ -532,7 +532,7 @@
 			num3.x = 150;
 			container.addChild(num0, num1, num2, num3);
 			container.scaleX = container.scaleY = 0.8;
-			container.x = this.width - container.getCurrentWidth() - 15 >> 0;
+			container.x = this.width - container.getCurrentWidth() - 25;
 			container.y = 15;
 			this.scoreNum = container;
 		}
@@ -601,11 +601,14 @@
 	// 游戏结束
 	game.gameOver = function() {
 		trace("game over:", this.score);
-		Q.Tween.to(this.boombg, {alpha:1, scaleX:0.8, scaleY:0.8}, {time:300,	onComplete:function(tween){
+		Q.Tween.to(this.boombg, {alpha:1, scaleX:0.8, scaleY:0.8}, {time:200,	onComplete:function(tween){
 			game.timer.pause();
 			game.state = STATE.OVER;
-			game.playBtn.changeState([110, 97, 90, 90 ]);
-			game.stage.addChild(game.playBtn);
+			//game.playBtn.changeState([110, 97, 90, 90 ]);
+			var over = new Q.Text({
+				id : "gameover",color:'white',font:"bold 42px 微软雅黑", text:"游戏结束",x:290,y:280,width:200,height:50,lineSpacing:0, textAlign:"center"
+			});
+			game.stage.addChild(game.playBtn, over);
 			game.stage.step();
 			// 保存分数
 			game.saveScore(this.score);
