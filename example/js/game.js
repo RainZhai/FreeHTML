@@ -39,8 +39,12 @@
 			src : "images/head_idle.png"
 		}, {
 			id : "boom",
-			size : 210,
-			src : "images/boom_bg.jpg"
+			size : 131,
+			src : "images/boom_bg.png"
+		},{
+			id:'freegamebg',
+			size:31,
+			src:'images/slot_back.jpg'
 		} ],
 
 		container : null,
@@ -614,6 +618,14 @@
 			game.saveScore(this.score);
 		}});
 		//this.container.lastChild.appendChild(this.overlay);
+	}
+	//进入小游戏
+	game.freegame = function(){
+		var _this =this;
+		if(_this.freegameBox==null){
+			_this.freegameBox = new Q.DisplayObjectContainer({id : 'freegamebox',width : 600,height : 600,x:100,y:50});
+			var freebg = new Q.Bitmap({image:_this.getImage('freegamebg'), width: _this.width,height: _this.height, x:0,y:0,alpha:0,scaleX:0.8, scaleY:0.8});
+		}
 	}
 
 	// 重新开始
