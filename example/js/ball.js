@@ -4,7 +4,6 @@
 		this.type = props.type;
 		Ball.superClass.constructor.call(this, this.type);
 		this.id = props.id || Q.UIDUtil.createUID("Ball");
-
 		this.reset(this.type);
 	};
 	Q.inherit(Ball, Q.Bitmap);

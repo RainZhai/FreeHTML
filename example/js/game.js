@@ -334,7 +334,7 @@
 			_this.createBalls();
 			for ( var i = 0; i < _this.balls.length; i++) {
 				var ball = _this.balls[i];
-				ball.reset(game.Ball.getRandomType());
+				//ball.reset(game.Ball.getRandomType());
 				_this.stage.addChild(ball);
 			} 
 			// 暂停、继续按钮
@@ -472,13 +472,14 @@
 			var hW = ball.getCurrentWidth() * 0.5, hH = ball.getCurrentHeight() * 0.5;
 			var dx = ball.x - mainRole.x, dy = mainRole.y - ball.y;
 			if (dx <= mainRole.getCurrentWidth() + hW && dx >= 0 && dy <= 2*hH && dy >= -hH - 100) {
+					log(ball);
 					if(ball.name ==='bomb'){
 						_this.gameOver();
 					}
 					ball.getCollide();
 					var ddx = dx - hW;
 					ball.currentSpeedX = Math.abs(ddx) > 20 ? ddx * 0.1 : 0;
-					this.collidedBall = ball; 
+					this.collidedBall = ball;
 					this.addScore(ball, ball.type.score);
 					return true;
 			}
@@ -606,6 +607,7 @@
 	game.gameOver = function() {
 		trace("game over:", this.score);
 		Q.Tween.to(this.boombg, {alpha:1, scaleX:0.8, scaleY:0.8}, {time:200,	onComplete:function(tween){
+			game.startFreegame();
 			game.timer.pause();
 			game.state = STATE.OVER;
 			//game.playBtn.changeState([110, 97, 90, 90 ]);
@@ -620,12 +622,14 @@
 		//this.container.lastChild.appendChild(this.overlay);
 	}
 	//进入小游戏
-	game.freegame = function(){
+	game.startFreegame = function(){
 		var _this =this;
-		if(_this.freegameBox==null){
-			_this.freegameBox = new Q.DisplayObjectContainer({id : 'freegamebox',width : 600,height : 600,x:100,y:50});
-			var freebg = new Q.Bitmap({image:_this.getImage('freegamebg'), width: _this.width,height: _this.height, x:0,y:0,alpha:0,scaleX:0.8, scaleY:0.8});
+		if(_this.freegame==null){
+			_this.freegame = new Q.DisplayObjectContainer({id : 'freegamebox',width : 600,height : 600,x:100,y:50});
+			var freebg = new Q.Bitmap({image:_this.getImage('freegamebg'), width: 600,height:600, x:0,y:0});
+			_this.freegame.addChild(freebg);
 		}
+		_this.stage.addChild(_this.freegame);
 	}
 
 	// 重新开始
