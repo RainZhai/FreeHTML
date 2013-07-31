@@ -22,18 +22,17 @@
 
 		this.reels = [];
 		this.indexs = [0,0,0,0];
-		this.reels.push(new LBitmap(this.getReel()));
-		this.reels.push(new LBitmap(this.getReel()));
-		this.reels.push(new LBitmap(this.getReel()));
-		this.reels.push(new LBitmap(this.reels[0].bitmapData));
+		this.reels.push(new Q.Bitmap(this.getReel()));
+		this.reels.push(new Q.Bitmap(this.getReel()));
+		this.reels.push(new Q.Bitmap(this.getReel()));
+		this.reels.push(new Q.Bitmap(this.reels[0].bitmapData));
 		
 		
 		var i,sy;
 		this.reels[0].height = 60;
-		this.reels[0].bitmapData.height = this.reels[0].height;
-		this.reels[0].bitmapData.setCoordinate(0,80-this.reels[0].height);
+		this.reels[0].x = 0;
+		this.reels[0].x = 80-this.reels[0].height;
 		this.reels[2].height = 60;
-		this.reels[2].bitmapData.height = this.reels[2].height;
 		this.reels[3].visible = false;
 		sy = 0;
 		for(i=0;i<this.reels.length;i++){
@@ -55,22 +54,21 @@
 
 		_this.indexs.pop();
 		_this.indexs.unshift(_this.currentNum);
-		var nextReel = new LBitmapData(imglist["item"+_this.currentNum++]);
+		//var nextReel = new LBitmapData(imglist["item"+_this.currentNum++]);
+		var nextReel ={image:_this.getImage('item'+_this.currentNum++), width:60,height:60, x:0,y:0};
 		return nextReel;
 	};
 	Reel.prototype.wheel = function (){
 		var _this = this;
 		
-		//回転速度の調節
+		//速度控制
 		if (_this.stopFlag) {
-			//スピードダウン
 			if (_this.currentSpeed > _this.minSpeed) {
 				_this.currentSpeed -= _this.speedDownStep;
 			} else {
 				_this.currentSpeed = _this.minSpeed;
 			}
 		} else {
-			//スピードアップ
 			if (_this.currentSpeed < _this.maxSpeed) {
 				_this.currentSpeed += _this.speedUpStep;
 			} else {

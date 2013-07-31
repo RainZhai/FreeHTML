@@ -63,8 +63,8 @@ Squirrel.prototype.init = function() {
 
 	// 初始化数据
 	this.eventChildren = false;
-	this.currentSpeedX = this.speedX = 30;
-	this.currentSpeedY = this.speedY = 40;
+	this.currentSpeedX = this.speedX = 20;
+	this.currentSpeedY = this.speedY = 30;
 	this.dirX = 0;
 	this.dirY = 0;
 	this.oldY = 0;
