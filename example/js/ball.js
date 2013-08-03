@@ -94,7 +94,7 @@
 				scaleX:0.8,
 				scaleY:0.8,
 				image: game.getImage("icons"),
-				rect:[0,310,110,84]
+				rect:[0,310,120,84]
 			};
 		this.TypeList = [ this.Type.nut,this.Type.nut2,this.Type.bomb,this.Type.chest ];
 	}

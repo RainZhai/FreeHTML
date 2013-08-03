@@ -61,7 +61,7 @@
 	Reel.prototype.wheel = function (){
 		var _this = this;
 		
-		//ËÙ¶È¿ØÖÆ
+		//é€Ÿåº¦æŽ§åˆ¶
 		if (_this.stopFlag) {
 			if (_this.currentSpeed > _this.minSpeed) {
 				_this.currentSpeed -= _this.speedDownStep;
