@@ -6,7 +6,6 @@
 			alert(str);
 		}
 	}
-
 	window.log = function() {
 		if (arguments.length > 0) {
 			for ( var i = 0, l = arguments.length; i < l; i++) {
@@ -54,6 +53,7 @@
 		,{id:"item5",size:4,src:"images/5.png"}
 		,{id:"item6",size:1,src:"images/6.png"}
 		],
+		stage: null,
 		container : null,
 		width : 800,
 		height : 600,
@@ -62,6 +62,7 @@
 
 		fps : 40,
 		timer : null,
+		events: null,
 		eventTarget : null,
 		state : null,
 
@@ -78,9 +79,18 @@
 		scoreNum : null,
 		life:true,
 		boombg: null,
-		freegame:null
+		freegame:null,
 	};
 	window.game = game;
+	game.getWidth = function(){
+		return this.width;
+	}
+	game.getHeight = function(){
+		return this.height;
+	}
+	game.getEvents = function(i){
+		return this.events[i];
+	}
 	// create balls array
 	game.createBalls = function() {
 		var minX = 100, maxX = this.width - 100, minY = -500, maxY = 0;
@@ -163,7 +173,8 @@
 		_this.timer.addListener(Q.Tween);
 		_this.timer.start();
 		//add bg audio
-		var audio = new Quark.Audio("audio/bg.mp3", true, true, true);
+		
+		var audio = new Quark.Audio("http://rainzhai.qiniudn.com/squirrel_bg.mp3", true, true, true);
 		_this.audio = audio;
 // set the move bg
 /*	var background = new Q.DisplayObjectContainer({
@@ -185,6 +196,7 @@
 		background.addChild(rect1);*/
 
 		// register the stage events
+		
 		em = new Q.EventManager();
 		_this.events = Q.supportTouch ? ["touchstart", "touchmove", "touchend"] : ["mousedown", "mousemove", "mouseup"];
 		em.registerStage(_this.stage, _this.events, function(e) {
@@ -432,7 +444,10 @@
 			if (dx <= mainRole.getCurrentWidth() + hW && dx >= 0 && dy <= 2*hH && dy >= -hH - 100) {
 					if(ball.name ==='bomb'){
 						_this.gameOver();
-					}
+					} 
+					if(ball.name ==='chest'){
+						_this.startFreegame();
+					} 
 					ball.getCollide();
 					var ddx = dx - hW;
 					ball.currentSpeedX = Math.abs(ddx) > 20 ? ddx * 0.1 : 0;
@@ -557,7 +572,6 @@
 	game.gameOver = function() {
 		trace("game over:", this.score);
 		Q.Tween.to(this.boombg, {alpha:1, scaleX:0.8, scaleY:0.8}, {time:200,	onComplete:function(tween){
-			//game.startFreegame();
 			game.timer.pause();
 			game.state = STATE.OVER;
 			//game.playBtn.changeState([110, 97, 90, 90 ]);
@@ -573,11 +587,9 @@
 	game.startFreegame = function(){
 		var _this =this;
 		if(_this.freegame==null){
-			_this.freegame = new Q.DisplayObjectContainer({id : 'freegamebox',width : 600,height : 600,x:100,y:50});
-			var freebg = new Q.Bitmap({image:_this.getImage('freegamebg'), width: 600,height:600, x:0,y:0});
-			_this.freegame.addChild(freebg);
+			_this.freegame = slotgame;
 		}
-		_this.stage.addChild(_this.freegame);
+		_this.freegame.init();
 	}
 
 	game.restart = function() {

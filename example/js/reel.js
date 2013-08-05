@@ -4,7 +4,7 @@
 		Reel.superClass.constructor.call(this, props);
 		this.id = props.id || Q.UIDUtil.createUID("Reel");
 	};
-	Q.inherit(Squirrel, Q.DisplayObjectContainer);
+	Q.inherit(Reel, Q.DisplayObjectContainer);
 
 	Reel.prototype.init = function() {
 		this.maxSpeed = 70;
@@ -25,11 +25,12 @@
 		this.reels.push(new Q.Bitmap(this.getReel()));
 		this.reels.push(new Q.Bitmap(this.getReel()));
 		this.reels.push(new Q.Bitmap(this.getReel()));
-		this.reels.push(new Q.Bitmap(this.reels[0].bitmapData));
+		this.reels.push(new Q.Bitmap(this.reels[0]));
 		
 		
 		var i,sy;
 		this.reels[0].height = 60;
+		this.reels[0]
 		this.reels[0].x = 0;
 		this.reels[0].x = 80-this.reels[0].height;
 		this.reels[2].height = 60;
@@ -88,7 +89,6 @@
 		_this.reels[1].y += _this.currentSpeed;
 		if(_this.reels[1].y + _this.reels[1].height > 200){
 			_this.reels[1].height = 200 - _this.reels[1].y;
-			_this.reels[1].bitmapData.height = _this.reels[1].height;
 		}
 		if(_this.reels[1].y > 80){
 			_this.reels[0].height = 80;
@@ -96,9 +96,9 @@
 		}else{
 			_this.reels[0].height = _this.reels[1].y;
 			_this.reels[0].y = 0;
-		}
-		_this.reels[0].bitmapData.height = _this.reels[0].height;
-		_this.reels[0].bitmapData.setCoordinate(0,80-_this.reels[0].height);
+		} 
+		_this.reels[0].x = 0;
+		_this.reels[0].y = 80-_this.reels[0].height;
 		
 		_this.reels[2].y = _this.reels[1].y + _this.reels[1].height;
 		
@@ -106,12 +106,10 @@
 			_this.reels[2].visible = false;
 		}else if(_this.reels[2].y + 80 > 200){
 			_this.reels[2].height = 200 - _this.reels[2].y;
-			_this.reels[2].bitmapData.height = _this.reels[2].height;
 		}else{
 			_this.reels[3].y = _this.reels[2].y + _this.reels[2].height;
 			if(_this.reels[3].y < 200){
 				_this.reels[3].height = 200 - _this.reels[3].y;
-				_this.reels[3].bitmapData.height = _this.reels[3].height;
 			}
 		}
 		
@@ -123,7 +121,8 @@
 			child.y = 0;
 			child.height = _this.reels[1].y;
 			child.bitmapData.height = child.height;
-			child.bitmapData.setCoordinate(0,80-child.height);
+			child.x = 0;
+			child.y = 80-child.height;
 		}
 		if(_this.reels[3].y >= 200){
 			_this.reels[3].visible = false;
