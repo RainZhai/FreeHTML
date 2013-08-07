@@ -3,10 +3,11 @@
 		props = props || {};
 		Reel.superClass.constructor.call(this, props);
 		this.id = props.id || Q.UIDUtil.createUID("Reel");
+		this.init(props.combination,props.index);
 	};
 	Q.inherit(Reel, Q.DisplayObjectContainer);
 
-	Reel.prototype.init = function() {
+	Reel.prototype.init = function(combination,index) {
 		this.maxSpeed = 70;
 		this.minSpeed = 10;
 		this.currentNum = 1;
@@ -46,7 +47,7 @@
 	Reel.prototype.onframe = function (){
 	var _this = this;
 
-	if(_this.startReel)_this.wheel();
+	if(_this.startReel) _this.wheel();
 	};
 	Reel.prototype.getReel = function (){
 		var _this = this;
@@ -56,7 +57,7 @@
 		_this.indexs.pop();
 		_this.indexs.unshift(_this.currentNum);
 		//var nextReel = new LBitmapData(imglist["item"+_this.currentNum++]);
-		var nextReel ={image:_this.getImage('item'+_this.currentNum++), width:60,height:60, x:0,y:0};
+		var nextReel ={image:game.getImage('item'+_this.currentNum++), width:60,height:60, x:0,y:0};
 		return nextReel;
 	};
 	Reel.prototype.wheel = function (){

@@ -35,7 +35,7 @@
 			x : 0,
 			y : 0,
 			update:function(){
-				this.onframe();
+				_this.onframe();
 			}
 		});
 
@@ -45,16 +45,16 @@
 			var reel = new game.Reel(_this.combination, i);
 			reel.x = 150 * i + 90;
 			reel.y = 225;
-			this.reels.push(reel);
+			_this.reels.push(reel);
 			_this.container.addChild(reel);
 			var kake = new Q.Bitmap({
 				image : game.getImage("kake")
 			});
 			kake.x = 150 * i + 90;
 			kake.y = 225;
-			this.kakes.push(kake);
+			_this.kakes.push(kake);
 			_this.container.addChild(kake);
-			var stop = Q.Button({
+			var stop = new Q.Button({
 				id : "slotstopBtn",
 				image : game.getImage("icons"),
 				width : 100,
@@ -72,13 +72,13 @@
 			stop.index = i;
 			_this.stopBtn.push(stop);
 			stop.visible = false;
-			stop.addEventListener(game.getEvents(2), this.stopevent);
+			stop.addEventListener(game.getEvents(2), _this.stopevent);
 			_this.container.addChild(stop);
 		}
 		
-		_this.start = Q.Button({
+		_this.start = new Q.Button({
 			id : "slotstartBtn",
-			image : _this.getImage("icons"),
+			image : game.getImage("icons"),
 			width : 100,
 			height : 100
 		});
@@ -90,12 +90,12 @@
 		});
 		_this.start.x = 55;
 		_this.start.y = 450;
-		_this.start.addEventListener(game.getEvents(2), this.onmouseup);
+		_this.start.addEventListener(game.getEvents(2), _this.onmouseup);
 		_this.container.addChild(_this.start);
 
-		_this.win = Q.Button({
+		_this.win = new Q.Button({
 			id : "slotwinBtn",
-			image : _this.getImage("icons"),
+			image : game.getImage("icons"),
 			width : 100,
 			height : 100
 		});
@@ -103,7 +103,7 @@
 		_this.win.setUpState({rect : [ 110, 0, 90, 90 ]});
 		_this.win.setOverState({rect : [ 110, 0, 90, 90 ]});
 		_this.win.visible = false;
-		_this.win.addEventListener(game.getEvents(2), winclick);
+		_this.win.addEventListener(game.getEvents(2), _this.winclick);
 		_this.container.addChild(_this.win);
 		game.stage.addChild(_this.container);
 	}
@@ -117,18 +117,19 @@
 		this.reels[currentTarget.index].stopFlag = true;
 	}
 	slotgame.onmouseup = function(event) {
+		var _this = slotgame;
 		var i;
 		var stopNum = Math.floor(Math.random() * (_this.combination.length / 3));
-		this.start.visible = false;
+		_this.start.visible = false;
 		for (i = 0; i < 3; i++) {
-			this.stopBtn[i].visible = true;
-			this.reels[i].startReel = true;
-			this.reels[i].stopFlag = false;
-			this.reels[i].stopNum = stopNum;
+			_this.stopBtn[i].visible = true;
+			_this.reels[i].startReel = true;
+			_this.reels[i].stopFlag = false;
+			_this.reels[i].stopNum = stopNum;
 		}
 	}
 	slotgame.winclick = function() {
-		_this.win.visible = false;
+		this.win.visible = false;
 		this.start.visible = true;
 	}
 	slotgame.checkWin = function() {

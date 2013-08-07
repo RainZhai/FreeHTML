@@ -344,7 +344,7 @@
 					var paused = game.timer.paused;
 					game.timer.paused = !paused;
 					game.stage.step();
-			})
+			});
 		}
 		_this.boombg = new Q.Bitmap({image:_this.getImage('boom'), width: _this.width,height: _this.height, x:0,y:0,alpha:0,scaleX:0.8, scaleY:0.8});
 
