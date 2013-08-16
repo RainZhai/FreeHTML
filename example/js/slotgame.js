@@ -72,7 +72,8 @@
 			stop.index = i;
 			_this.stopBtn.push(stop);
 			stop.visible = false;
-			stop.addEventListener(game.getEvents(2), _this.stopevent);
+			log('--'+stop.index);
+			stop.addEventListener(game.getEvents(2),Q.delegate(this.stopevent, stop));
 			_this.container.addChild(stop);
 		}
 		
@@ -113,8 +114,10 @@
 			this.reels[i].onframe();
 		}
 	}
-	slotgame.stopevent = function(event, currentTarget) {
-		this.reels[currentTarget.index].stopFlag = true;
+	slotgame.stopevent = function(e) {
+		log(typeof e.target);
+		log(this.index);
+		slotgame.reels[this.index].stopFlag = true;
 	}
 	slotgame.onmouseup = function(event) {
 		var _this = slotgame;
