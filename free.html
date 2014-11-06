@@ -4,30 +4,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Free HTML</title>
 <!-- Framework CSS -->
-<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"/>
-<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"/> 
+<link rel="stylesheet" href="http://rainzhai.github.io/raincss/css/blueprint/screen.css" type="text/css" media="screen, projection"/>
 <!--[if lte IE 8]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-<link rel="stylesheet" href="css/rain.css" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href="http://rainzhai.github.io/raincss/css/rain.css" type="text/css" media="screen, projection"/>
 <!--[if lt IE 9]><script type="text/javascript" src="js/lib/html5.js"></script><![endif]-->
 </head>
 
-<body class="body">
-<script src="js/lib/require.js" data-main="js/main"></script>
-<script id="sidebar-template" type="text/x-handlebars-template">
+<body class="body fullh">
+<script id="sidebar-template" type="text/html">
+{{if isAdmin}}
 	<div class="sidebar bgLightGrey left positionR">
 	<h2 class="category">{{category}}</h2>
-	<p class="paddingS">{{introduction}}</p>
+	<p class="ps">{{introduction}}</p>
 	</div>
+{{/if}}
 </script>
-<script id="people-template" type="text/x-handlebars-template">
-  {{#people}}
+<script id="people-template" type="text/html">
+      {{each people as value i}}
 	<div class="person">
-	  <h2>{{first_name}} {{last_name}}</h2>
-	  <div class="phone">{{phone}}</div>
-	  <div class="email"><a href="mailto:{{email}}">{{email}}</a></div>
-	  <div class="since">User since {{member_since}}</div>
+	  <h2>{{i + 1}} {{value.first_name}} {{value.last_name}}</h2>
+	  <div class="phone">{{value.phone}}</div>
+	  <div class="email"><a href="mailto:{{value.email}}">{{value.email}}</a></div>
+	  <div class="since">User since {{value.member_since}}</div>
 	</div>
-  {{/people}}
+    {{/each}}
 </script>
+<script src="js/lib/require.js" data-main="js/main"></script>
 </body>
 </html>

@@ -2,9 +2,8 @@ require.config({
 	"baseUrl": "./js/",
 	paths: {
 		jquery: 'lib/jquery-1.10.1.min',
-		template: 'lib/handlebars',
-		html: 'freehtml',
-		two: 'lib/two.min.js'
+		template: 'lib/template',
+		html: 'freehtml'
 	},
   priority: ['jquery']
 });
@@ -33,20 +32,21 @@ require(['jquery','html','classobj','template'], function ($,_html,c,t){
 		_html.ensureImplements(doc.header.actions,BoxIf);
 		doc.header.add(doc.nav);
 		doc.nav.add(doc.links_1,doc.links_2);
-		// compile our template
-		var userlist = t.compile($("#people-template").html());
 		var data = {
+			isAdmin: true,
 			people: [
 				{ first_name: "Alan", last_name: "Johnson", phone: "1234567890", email: "alan@test.com", member_since: "Mar 25, 2011" },
 				{ first_name: "Allison", last_name: "House", phone: "0987654321", email: "allison@test.com", member_since: "Jan 13, 2011" }
 			]
 		};
-		doc.userlist.add(userlist(data));
+		// compile our template
+		var userlist = t("people-template",data);
+		doc.userlist.add(userlist);
 		doc.main.add(doc.userlist);
 			//.add('article.html .main','url');
-		var sidebar = t.compile($("#sidebar-template").html());
-		doc.container.add(sidebar({category:"FreeHTML介绍",introduction:"FreeHTML是一个快速创建html页面的插件"}),doc.main);
-		var dom = _html.create('p',{'height':'40px','background':'#000'},{'title':'sdfds'});
+		var sidebar = t("sidebar-template", {isAdmin: true, category:"FreeHTML介绍",introduction:"FreeHTML是一个快速创建html页面的插件"});
+		doc.container.add(sidebar, doc.main);
+		var dom = _html.create('p',{'height':'40px','width':'100%','background':'#ccc','bottom':'0','position':'fixed','left':'0'},{'title':'hello'});
 		doc.header2.add(doc.header2_child.add(doc.header2_link));
 		doc.body.add(doc.header,doc.header2,doc.container,dom);
 		//doc.body.add("#header,#nav");
