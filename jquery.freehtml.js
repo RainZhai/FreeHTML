@@ -352,4 +352,4 @@
 		o.constructor();
 		return o;
 	}
-})(jQuery);
+})(jQuery || Zepto);
