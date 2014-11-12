@@ -351,7 +351,7 @@
 				remove: function(ele/*string | jq | htmlobj*/){
 					if(ele){
 					var _ele = ele.jq || ele;
-					o.jq.remove(_ele);
+					o.jq.find(_ele).empty();
 					}else{
 					o.jq.empty();
 					}
